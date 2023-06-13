@@ -3,11 +3,11 @@ plugins {
 }
 
 android {
-    namespace 'edu.northeastern.a6_group8'
+    namespace 'edu.northeastern.NUMAD_23Su_Group8'
     compileSdk 33
 
     defaultConfig {
-        applicationId "edu.northeastern.a6_group8"
+        applicationId "edu.northeastern.NUMAD_23Su_Group8"
         minSdk 27
         targetSdk 33
         versionCode 1

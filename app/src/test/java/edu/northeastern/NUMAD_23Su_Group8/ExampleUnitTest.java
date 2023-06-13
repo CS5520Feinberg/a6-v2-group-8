@@ -1,4 +1,4 @@
-package edu.northeastern.a6_group8;
+package edu.northeastern.NUMAD_23Su_Group8;
 
 import org.junit.Test;
 
