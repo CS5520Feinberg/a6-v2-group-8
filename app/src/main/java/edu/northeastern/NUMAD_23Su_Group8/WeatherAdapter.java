@@ -34,12 +34,12 @@ public class WeatherAdapter extends RecyclerView.Adapter<WeatherViewHolder> {
         holder.state.setText(weatherCardList.get(position).getState());
         holder.country.setText(weatherCardList.get(position).getCountry());
 
-//        holder.deleteBtn.setOnClickListener(v -> {
-//            if (position != RecyclerView.NO_POSITION) {
-//                removeItem(position);
-//            }
-//        });
-
+        holder.deleteBtn.setOnClickListener(v -> {
+            int currentPosition = holder.getAdapterPosition();
+            if (currentPosition != RecyclerView.NO_POSITION) {
+                removeItem(currentPosition);
+            }
+        });
     }
 
     @Override
