@@ -39,6 +39,7 @@ android {
         applicationId "edu.northeastern.NUMAD_23Su_Group8"
         minSdk 27
         targetSdk 33
+        compileSdk 33
         versionCode 1
         versionName "1.0"
 
