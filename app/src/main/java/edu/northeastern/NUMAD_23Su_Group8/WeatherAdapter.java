@@ -33,10 +33,22 @@ public class WeatherAdapter extends RecyclerView.Adapter<WeatherViewHolder> {
         holder.locationName.setText(weatherCardList.get(position).getLocationName());
         holder.state.setText(weatherCardList.get(position).getState());
         holder.country.setText(weatherCardList.get(position).getCountry());
+
+        holder.deleteBtn.setOnClickListener(v -> {
+            if (position != RecyclerView.NO_POSITION) {
+                removeItem(position);
+            }
+        });
+
     }
 
     @Override
     public int getItemCount() {
         return weatherCardList.size();
+    }
+
+    public void removeItem(int position) {
+        weatherCardList.remove(position);
+        notifyItemRemoved(position);
     }
 }
