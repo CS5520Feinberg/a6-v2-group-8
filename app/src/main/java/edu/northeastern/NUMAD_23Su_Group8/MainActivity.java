@@ -1,6 +1,7 @@
 package edu.northeastern.NUMAD_23Su_Group8;
 
 import android.content.Intent;
+import android.util.Log;
 import android.widget.Button;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
@@ -19,5 +20,7 @@ public class MainActivity extends AppCompatActivity {
       Intent intent = new Intent(MainActivity.this, WebServiceActivity.class);
       MainActivity.this.startActivity(intent);
     });
+
+    Log.println(Log.INFO, "Open Weather API Key: ", BuildConfig.OPEN_WEATHER_API_KEY);
   }
 }
