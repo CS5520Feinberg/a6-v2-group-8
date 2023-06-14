@@ -6,4 +6,13 @@
   android:layout_height="match_parent"
   tools:context="edu.northeastern.NUMAD_23Su_Group8.WebServiceActivity">
 
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/webServiceToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="@style/ToolbarTheme"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="1dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -22,6 +22,10 @@ android {
         }
     }
 
+    buildFeatures {
+        viewBinding true
+    }
+
     namespace 'edu.northeastern.NUMAD_23Su_Group8'
     compileSdk 33
 

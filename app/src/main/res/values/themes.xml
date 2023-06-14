@@ -5,5 +5,10 @@
     <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
   </style>
 
+  <!-- adding custom styling in order to make the back button on the toolbar white-->
+  <style name="ToolbarTheme" parent="@style/ThemeOverlay.AppCompat.ActionBar">
+    <item name="colorControlNormal">@color/white</item>
+  </style>
+
   <style name="Theme.A6Group8" parent="Base.Theme.A6Group8" />
 </resources>
