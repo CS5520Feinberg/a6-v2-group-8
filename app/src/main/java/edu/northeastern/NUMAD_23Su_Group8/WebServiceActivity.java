@@ -3,20 +3,23 @@ package edu.northeastern.NUMAD_23Su_Group8;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 
-import edu.northeastern.NUMAD_23Su_Group8.R;
-
+import java.util.ArrayList;
+import java.util.List;
 import edu.northeastern.NUMAD_23Su_Group8.databinding.ActivityWebServiceBinding;
 
 public class WebServiceActivity extends AppCompatActivity {
 
   private ActivityWebServiceBinding binding;
-
+  RecyclerView weatherRecyclerView;
+  List<WeatherCard> weatherCardList;
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -35,6 +38,23 @@ public class WebServiceActivity extends AppCompatActivity {
     toolbar.setTitleTextColor(Color.WHITE);
     setSupportActionBar(toolbar);
     getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+    binding.weatherSearchView.onActionViewExpanded();
+    binding.weatherSearchView.clearFocus();
+
+    // instantiating the weatherCardList for the recyclerView
+    weatherCardList = new ArrayList<>();
+
+    weatherRecyclerView = binding.weatherRecyclerView;
+
+    // setting this as fixed for now, but if we need to adapt this later we can.
+    weatherRecyclerView.setHasFixedSize(true);
+
+    weatherRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+    // TODO add swipe-to-delete functionality here using ItemTouchHelper.
+
+    weatherRecyclerView.setAdapter(new WeatherAdapter(weatherCardList, this));
   }
 
   /**
