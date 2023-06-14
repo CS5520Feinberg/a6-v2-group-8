@@ -13,9 +13,9 @@ public class MainActivity extends AppCompatActivity {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
 
-    Button aboutMeButton = findViewById(R.id.btn_web_service);
+    Button webServiceBtn = findViewById(R.id.btn_web_service);
 
-    aboutMeButton.setOnClickListener(v -> {
+    webServiceBtn.setOnClickListener(v -> {
       Intent intent = new Intent(MainActivity.this, WebServiceActivity.class);
       MainActivity.this.startActivity(intent);
     });

@@ -12,13 +12,15 @@ import androidx.recyclerview.widget.RecyclerView;
  */
 public class WeatherViewHolder extends RecyclerView.ViewHolder {
 
-    public TextView name;
+    public TextView locationName;
+    public TextView state;
+    public TextView country;
     public TextView weather;
     public Button deleteBtn;
     public WeatherViewHolder(@NonNull View itemView) {
         super(itemView);
-        this.name = name;
-        this.weather = weather;
-        this.deleteBtn = deleteBtn;
+        this.locationName = itemView.findViewById(R.id.locationName);
+        this.state = itemView.findViewById(R.id.state);
+        this.country = itemView.findViewById(R.id.country);
     }
 }

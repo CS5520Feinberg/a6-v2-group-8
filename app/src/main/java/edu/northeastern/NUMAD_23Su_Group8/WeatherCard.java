@@ -13,20 +13,17 @@ public class WeatherCard {
     private int longitude;
 
     /**
-     * Five argument constructor for WeatherCard. Will set the locationName, country, state, lat, and
-     * lon for the response we receive from the API call.
+     * Five argument constructor for WeatherCard. Will set the locationName, country, state for the response we receive from the API call.
      * @param locationName
      * @param country
      * @param state
-     * @param latitude
-     * @param longitude
+     *
      */
-    public WeatherCard(String locationName, String country, String state, int latitude, int longitude) {
+    // TODO check to see if I need to add lat and lon back into this.
+    public WeatherCard(String locationName, String country, String state) {
         this.locationName = locationName;
         this.country = country;
         this.state = state;
-        this.latitude = latitude;
-        this.longitude = longitude;
     }
 
     public String getLocationName() {

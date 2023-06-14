@@ -24,17 +24,19 @@ public class WeatherAdapter extends RecyclerView.Adapter<WeatherViewHolder> {
     @Override
     public WeatherViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.activity_web_service, parent, false);
+                .inflate(R.layout.card_view, parent, false);
         return new WeatherViewHolder(v);
     }
 
     @Override
     public void onBindViewHolder(@NonNull WeatherViewHolder holder, int position) {
-
+        holder.locationName.setText(weatherCardList.get(position).getLocationName());
+        holder.state.setText(weatherCardList.get(position).getState());
+        holder.country.setText(weatherCardList.get(position).getCountry());
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return weatherCardList.size();
     }
 }
