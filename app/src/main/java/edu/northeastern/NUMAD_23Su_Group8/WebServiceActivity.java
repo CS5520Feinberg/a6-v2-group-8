@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.SearchView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +23,9 @@ public class WebServiceActivity extends AppCompatActivity {
   private ActivityWebServiceBinding binding;
   RecyclerView weatherRecyclerView;
   List<WeatherCard> weatherCardList;
+
+  DummyDataGenerator dummyDataGenerator;
+
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -55,12 +59,29 @@ public class WebServiceActivity extends AppCompatActivity {
 
     weatherRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-    // TODO add swipe-to-delete functionality here using ItemTouchHelper.
+
     // TODO substitute out the dummyData with real data from the API.
     List<WeatherCard> dummyDataList = dummyDataGenerator.generateData(this);
 
+    WeatherAdapter weatherAdapter = new WeatherAdapter(dummyDataList, this);
+    weatherRecyclerView.setAdapter(weatherAdapter);
 
-    weatherRecyclerView.setAdapter(new WeatherAdapter(dummyDataList, this));
+    binding.weatherSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+      @Override
+      public boolean onQueryTextSubmit(String query) {
+        weatherAdapter.getFilter().filter(query);
+        return false;
+      }
+
+      @Override
+      public boolean onQueryTextChange(String newText) {
+
+        weatherAdapter.getFilter().filter(newText);
+        return false;
+
+      }
+    });
+
 
   }
 
