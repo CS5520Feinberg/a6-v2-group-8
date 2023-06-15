@@ -71,6 +71,13 @@ public class WebServiceActivity extends AppCompatActivity {
     weatherCardList = dummyDataList;
 
 
+    /*
+     * lines 77:96 represent the search filtering functionality required for our weather app.
+     * The code provides weatherSearchView with a listener that waits for the user to start typing.
+     * Upon doing so, the code iterates through the list of WeatherCards that are added and
+     * matches the appropriate cards to the user's search (based on locationName). Then, makes the
+     * adapter's updateData call with the new list.
+     */
     binding.weatherSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
       @Override
       public boolean onQueryTextSubmit(String query) {
@@ -88,14 +95,10 @@ public class WebServiceActivity extends AppCompatActivity {
         }
         weatherAdapter.updateData(updatedWCList);
         return true;
-
       }
-
-
     });
 
     weatherRecyclerView.setAdapter(weatherAdapter);
-
   }
 
   /**
