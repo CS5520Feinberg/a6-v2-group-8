@@ -40,9 +40,9 @@ public class WeatherForecastDetailsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_weather_details);
         HTTPcall task = new HTTPcall();
         try {
-            String url = HTTpUtils.validInput("https://api.openweathermap.org/data/2.5/forecast?lat=44.34&lon=10.99&appid=60477ecb4e02a854557beda9abdb39b4");
+            String url = "https://api.openweathermap.org/data/2.5/forecast?lat=44.34&lon=10.99&appid=60477ecb4e02a854557beda9abdb39b4";
             task.execute(url); // This is a security risk.  Don't let your user enter the URL in a real app.
-        } catch (HTTpUtils.MyException e) {
+        } catch (Exception e) {
             Toast.makeText(getApplication(),e.toString(),Toast.LENGTH_SHORT).show();
         }
 
