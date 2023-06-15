@@ -22,5 +22,6 @@ public class WeatherViewHolder extends RecyclerView.ViewHolder {
         this.locationName = itemView.findViewById(R.id.locationName);
         this.state = itemView.findViewById(R.id.state);
         this.country = itemView.findViewById(R.id.country);
+        this.deleteBtn = itemView.findViewById(R.id.deleteBtn);
     }
 }

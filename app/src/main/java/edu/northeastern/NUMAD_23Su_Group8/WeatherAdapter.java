@@ -4,15 +4,19 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class WeatherAdapter extends RecyclerView.Adapter<WeatherViewHolder> {
+public class WeatherAdapter extends RecyclerView.Adapter<WeatherViewHolder> implements Filterable {
 
     private final List<WeatherCard> weatherCardList;
+    private List<WeatherCard> filteredWCList;
     private final Context context;
 
     public WeatherAdapter(List<WeatherCard> weatherCardList, Context context) {
@@ -33,10 +37,60 @@ public class WeatherAdapter extends RecyclerView.Adapter<WeatherViewHolder> {
         holder.locationName.setText(weatherCardList.get(position).getLocationName());
         holder.state.setText(weatherCardList.get(position).getState());
         holder.country.setText(weatherCardList.get(position).getCountry());
+
+        holder.deleteBtn.setOnClickListener(v -> {
+            int currentPosition = holder.getAdapterPosition();
+            if (currentPosition != RecyclerView.NO_POSITION) {
+                removeItem(currentPosition);
+            }
+        });
     }
 
     @Override
     public int getItemCount() {
         return weatherCardList.size();
+    }
+
+    public void removeItem(int position) {
+        weatherCardList.remove(position);
+        notifyItemRemoved(position);
+    }
+
+
+    @Override
+    /**
+     * getFilter() -- this method is implemented from the Filterable class and is used to
+     * pare down the list of results from the RecyclerView and return the smaller list to the
+     * user. The getFilter() method has to be overridden
+     *
+     *
+     */
+
+    //TODO DOES NOT WORK CURRENTLY.
+    public Filter getFilter() {
+        return new Filter() {
+            @Override
+            protected FilterResults performFiltering(CharSequence constraint) {
+                String searchQuery = constraint.toString().toLowerCase().trim();
+
+                List<WeatherCard> filteredList = new ArrayList<>();
+                for (WeatherCard card : weatherCardList) {
+                    if (card.toString().toLowerCase().contains(searchQuery)) {
+                        filteredList.add(card);
+                    }
+                }
+                FilterResults res = new FilterResults();
+
+                res.values = filteredList;
+
+                return res;
+            }
+
+            @Override
+            protected void publishResults(CharSequence constraint, FilterResults results) {
+                filteredWCList = (List<WeatherCard>) results.values;
+                notifyDataSetChanged();
+            }
+        };
     }
 }

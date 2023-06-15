@@ -32,14 +32,15 @@
             android:id="@+id/state"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_width="268dp"
+            android:layout_height="48dp"
             android:padding="16dp"
             android:textColor="@color/white"
             android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/country"
-            />
+            app:layout_constraintTop_toBottomOf="@+id/country" />
 
         <TextView
             android:id="@+id/country"
@@ -54,7 +55,17 @@
             app:layout_constraintTop_toBottomOf="@+id/locationName"
             />
 
-
+        <Button
+            android:id="@+id/deleteBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/delete"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.859"
+            app:layout_constraintStart_toEndOf="@+id/state"
+            app:layout_constraintTop_toBottomOf="@+id/country"
+            app:layout_constraintVertical_bias="1.0" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
