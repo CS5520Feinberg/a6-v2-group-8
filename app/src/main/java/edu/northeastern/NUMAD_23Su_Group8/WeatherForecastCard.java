@@ -3,16 +3,14 @@ package edu.northeastern.NUMAD_23Su_Group8;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.util.Date;
-
 public class WeatherForecastCard  implements Parcelable {
 
-    private int temp;
+    private Double temp;
     private String currentDate;
     private String weather;
     private String weatherDescription;
 
-    public WeatherForecastCard(int temp, String currentDate, String weather, String weatherDescription) {
+    public WeatherForecastCard(Double temp, String currentDate, String weather, String weatherDescription) {
         this.temp = temp;
         this.weather = weather;
         this.currentDate = currentDate;
@@ -20,14 +18,30 @@ public class WeatherForecastCard  implements Parcelable {
     }
 
     protected WeatherForecastCard(Parcel in) {
-        temp = in.readInt();
+        temp = in.readDouble();
         weather = in.readString();
         currentDate = in.readString();
     }
 
+    public String getTemp() {
+        return temp.toString();
+    }
+
+    public String getWeather() {
+        return weather;
+    }
+
+    public String getWeatherDescription() {
+        return weatherDescription;
+    }
+
+    public String getCurrentDate() {
+        return currentDate;
+    }
+
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(temp);
+        dest.writeDouble(temp);
         dest.writeString(weather);
         dest.writeString(currentDate);
     }
