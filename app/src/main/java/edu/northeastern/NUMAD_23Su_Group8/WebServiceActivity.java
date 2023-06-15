@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -16,6 +17,7 @@ import java.util.List;
 import edu.northeastern.NUMAD_23Su_Group8.databinding.ActivityWebServiceBinding;
 
 public class WebServiceActivity extends AppCompatActivity {
+
 
   private ActivityWebServiceBinding binding;
   RecyclerView weatherRecyclerView;
@@ -39,6 +41,7 @@ public class WebServiceActivity extends AppCompatActivity {
     setSupportActionBar(toolbar);
     getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+    // expanding search bar so tap takes up entire area of the element (not .
     binding.weatherSearchView.onActionViewExpanded();
     binding.weatherSearchView.clearFocus();
 
@@ -53,8 +56,12 @@ public class WebServiceActivity extends AppCompatActivity {
     weatherRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
     // TODO add swipe-to-delete functionality here using ItemTouchHelper.
+    // TODO substitute out the dummyData with real data from the API.
+    List<WeatherCard> dummyDataList = dummyDataGenerator.generateData(this);
 
-    weatherRecyclerView.setAdapter(new WeatherAdapter(weatherCardList, this));
+
+    weatherRecyclerView.setAdapter(new WeatherAdapter(dummyDataList, this));
+
   }
 
   /**
@@ -69,5 +76,31 @@ public class WebServiceActivity extends AppCompatActivity {
 
     finish();
     return super.onOptionsItemSelected(backButton);
+  }
+
+  /**
+   * This method is what saves the state of REcyclerVIew on screen rotation.
+   * @param state Bundle in which to place your saved state.
+   *
+   */
+  @Override
+  protected void onSaveInstanceState(Bundle state) {
+    super.onSaveInstanceState(state);
+
+    Parcelable recyclerState = weatherRecyclerView.getLayoutManager().onSaveInstanceState();
+    state.putParcelable("recyclerState", recyclerState);
+  }
+
+  /**
+   * This method is what restores the saved state of recycler view on screen rotation.
+   * @param savedInstanceState the data most recently supplied in {@link #onSaveInstanceState}.
+   *
+   */
+  @Override
+  protected void onRestoreInstanceState(Bundle savedInstanceState) {
+    super.onRestoreInstanceState(savedInstanceState);
+    Parcelable recyclerState = savedInstanceState.getParcelable("recyclerState");
+    weatherRecyclerView.getLayoutManager().onRestoreInstanceState(recyclerState);
+
   }
 }
