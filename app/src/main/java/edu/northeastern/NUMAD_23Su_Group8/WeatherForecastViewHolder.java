@@ -6,7 +6,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import org.w3c.dom.Text;
 
 public class WeatherForecastViewHolder extends RecyclerView.ViewHolder  {
     public TextView temp;
