@@ -1,5 +1,6 @@
 package edu.northeastern.NUMAD_23Su_Group8;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -57,16 +58,15 @@ public class WeatherAdapter extends RecyclerView.Adapter<WeatherViewHolder> impl
     }
 
 
-    @Override
     /**
      * getFilter() -- this method is implemented from the Filterable class and is used to
      * pare down the list of results from the RecyclerView and return the smaller list to the
      * user. The getFilter() method has to be overridden
+     * <p>
+     * TODO DOES NOT WORK CURRENTLY.
      *
-     *
-     */
-
-    //TODO DOES NOT WORK CURRENTLY.
+     **/
+    @Override
     public Filter getFilter() {
         return new Filter() {
             @Override
@@ -86,9 +86,10 @@ public class WeatherAdapter extends RecyclerView.Adapter<WeatherViewHolder> impl
                 return res;
             }
 
+            @SuppressLint("NotifyDataSetChanged")
             @Override
             protected void publishResults(CharSequence constraint, FilterResults results) {
-                filteredWCList = (List<WeatherCard>) results.values;
+                WeatherAdapter.this.filteredWCList = (List<WeatherCard>) results.values;
                 notifyDataSetChanged();
             }
         };
