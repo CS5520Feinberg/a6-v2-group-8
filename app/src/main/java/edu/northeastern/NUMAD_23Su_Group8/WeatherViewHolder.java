@@ -17,6 +17,7 @@ public class WeatherViewHolder extends RecyclerView.ViewHolder {
     public TextView state;
     public TextView country;
     public Button deleteBtn;
+    public Button moreDetails;
 
     public SearchView searchView;
     public WeatherViewHolder(@NonNull View itemView) {
@@ -26,5 +27,6 @@ public class WeatherViewHolder extends RecyclerView.ViewHolder {
         this.country = itemView.findViewById(R.id.country);
         this.deleteBtn = itemView.findViewById(R.id.deleteBtn);
         this.searchView = itemView.findViewById(R.id.weatherSearchView);
+        this.moreDetails = itemView.findViewById(R.id.moreDetailsBtn);
     }
 }

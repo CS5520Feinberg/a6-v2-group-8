@@ -16,7 +16,7 @@ public class MainActivity extends AppCompatActivity {
     setContentView(R.layout.activity_main);
 
     Button aboutMeButton = findViewById(R.id.btn_web_service);
-    Button tempDetailsButton = findViewById(R.id.tempDetailsButton);
+//    Button tempDetailsButton = findViewById(R.id.tempDetailsButton);
     Button webServiceBtn = findViewById(R.id.btn_web_service);
 
 	aboutMeButton.setOnClickListener(v -> {
@@ -24,13 +24,13 @@ public class MainActivity extends AppCompatActivity {
       MainActivity.this.startActivity(intent);
     });
 
-    tempDetailsButton.setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View v) {
-        Intent intent = new Intent(v.getContext(), WeatherForecastDetailsActivity.class);
-        startActivity(intent);
-      }
-    });
+//    tempDetailsButton.setOnClickListener(new View.OnClickListener() {
+//      @Override
+//      public void onClick(View v) {
+//        Intent intent = new Intent(v.getContext(), WeatherForecastDetailsActivity.class);
+//        startActivity(intent);
+//      }
+//    });
 
     webServiceBtn.setOnClickListener(v -> {
       Intent intent = new Intent(MainActivity.this, WebServiceActivity.class);
