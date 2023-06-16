@@ -1,8 +1,9 @@
 package edu.northeastern.NUMAD_23Su_Group8;
 
+
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.util.Log;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,10 +17,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class WeatherAdapter extends RecyclerView.Adapter<WeatherViewHolder> {
+public class WeatherAdapter extends RecyclerView.Adapter<WeatherViewHolder> implements Filterable{
 
     private List<WeatherCard> weatherCardList;
+    private List<WeatherCard> filteredWCList;
     private final Context context;
+    private CardClickListener listener;
 
     public WeatherAdapter(List<WeatherCard> weatherCardList, Context context) {
         this.weatherCardList = weatherCardList;
@@ -44,6 +47,14 @@ public class WeatherAdapter extends RecyclerView.Adapter<WeatherViewHolder> {
             int currentPosition = holder.getAdapterPosition();
             if (currentPosition != RecyclerView.NO_POSITION) {
                 removeItem(currentPosition);
+            }
+        });
+
+        // pass the selected city name through the listener to weather details activity
+        holder.moreDetails.setOnClickListener(v -> {
+            int currentPosition = holder.getAdapterPosition();
+            if (currentPosition != RecyclerView.NO_POSITION) {
+                listener.onSeeMoreClick(weatherCardList.get(position).getLocationName());
             }
         });
     }
@@ -98,5 +109,9 @@ public class WeatherAdapter extends RecyclerView.Adapter<WeatherViewHolder> {
                 notifyDataSetChanged();
             }
         };
+    }
+
+    public void onCardListener(CardClickListener listener) {
+        this.listener = listener;
     }
 }

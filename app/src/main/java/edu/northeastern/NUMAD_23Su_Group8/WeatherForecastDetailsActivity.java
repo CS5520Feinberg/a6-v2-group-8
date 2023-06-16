@@ -2,14 +2,17 @@ package edu.northeastern.NUMAD_23Su_Group8;
 
 import static android.content.ContentValues.TAG;
 
+import static edu.northeastern.NUMAD_23Su_Group8.BuildConfig.OPEN_WEATHER_API_KEY;
+
+import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -29,23 +32,19 @@ import java.util.Date;
 import java.util.List;
 
 public class WeatherForecastDetailsActivity extends AppCompatActivity {
-    RecyclerView forecastListRecyclerView;
+    ListView forecastListView;
     private static final String FORECAST_LIST_KEY = "forecast_list";
     List<WeatherForecastCard> forecastList = new ArrayList<>();
+    String baseURL = "https://api.openweathermap.org/data/2.5/";
 
     private WeatherForecastAdapter adapter;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_weather_details);
-        HTTPcall task = new HTTPcall();
-        try {
-            String url = "https://api.openweathermap.org/data/2.5/forecast?lat=44.34&lon=10.99&appid=60477ecb4e02a854557beda9abdb39b4";
-            task.execute(url); // This is a security risk.  Don't let your user enter the URL in a real app.
-        } catch (Exception e) {
-            Toast.makeText(getApplication(),e.toString(),Toast.LENGTH_SHORT).show();
-        }
-
+        String city = getIntent().getStringExtra("city");
+        getCoordinates(city);
+//        getData("42.3554334","-71.060511");
         if (savedInstanceState != null) {
             ArrayList<WeatherForecastCard> savedDataList = savedInstanceState.getParcelableArrayList(FORECAST_LIST_KEY);
             if (savedDataList != null) {
@@ -54,11 +53,31 @@ public class WeatherForecastDetailsActivity extends AppCompatActivity {
         }
     }
 
-    public void createRecyclerView() {
-        forecastListRecyclerView = findViewById(R.id.forecastList);
-        adapter = new WeatherForecastAdapter(forecastList, this);
-        forecastListRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        forecastListRecyclerView.setAdapter(adapter);
+    private void getCoordinates(String city) {
+        HTTPcall coordinatesTask = new HTTPcall();
+        String URL = "https://api.openweathermap.org/geo/1.0/direct?q="+city+"&limit=1&appid="+OPEN_WEATHER_API_KEY;
+        coordinatesTask.execute(URL, "coordinatesTask");
+    }
+
+    private void getData(String la, String lo) {
+        String lat = la;
+        String lon = lo;
+        HTTPcall weatherTask = new HTTPcall();
+        HTTPcall forecastTask = new HTTPcall();
+        try {
+            String currentURL = baseURL + "weather?lat="+lat+"&lon="+lon+"&units=metric&appid="+OPEN_WEATHER_API_KEY;
+            String forecastURL = baseURL + "forecast?lat="+lat+"&lon="+lon+"&units=metric&appid="+OPEN_WEATHER_API_KEY;
+            weatherTask.execute(currentURL, "weatherTask");
+            forecastTask.execute(forecastURL, "forecastTask");
+        } catch (Exception e) {
+            Toast.makeText(getApplication(),e.toString(),Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public void createListView() {
+        forecastListView = findViewById(R.id.forecastList);
+        adapter = new WeatherForecastAdapter(this, forecastList);
+        forecastListView.setAdapter(adapter);
     }
 
     @Override
@@ -67,33 +86,69 @@ public class WeatherForecastDetailsActivity extends AppCompatActivity {
         outState.putParcelableArrayList(FORECAST_LIST_KEY, new ArrayList<>(forecastList));
     }
 
-    private void parseData(String data) throws JSONException {
-        JSONObject jsonObject = new JSONObject(data);
-        DateFormat obj = new SimpleDateFormat(" E, dd MMM yyyy");
-        JSONArray jsonArray1 = jsonObject.getJSONArray("list");
-        for(int i=0; i<jsonArray1.length(); i++) {
-            JSONObject day = jsonArray1.getJSONObject(i);
-            Double temp = (Double) day.getJSONObject("main").get("temp");
-            Integer dat = (Integer) day.get("dt");
-            Date cur = new Date(new Long(dat));
-            JSONObject weatherDetails = day.getJSONArray("weather").getJSONObject(0);
-            String weather = weatherDetails.getString("main");
-            String weatherDesc = weatherDetails.getString("description");
-            forecastList.add(new WeatherForecastCard( temp, obj.format(cur), weather,weatherDesc));
+    private void parseData(String[] data) throws JSONException {
+        switch (data[1]) {
+            case "forecastTask":
+                JSONObject jsonObject = new JSONObject(data[0]);
+                DateFormat obj = new SimpleDateFormat(" E, dd MMM");
+                JSONArray jsonArray1 = jsonObject.getJSONArray("list");
+                for (int i = 0; i < jsonArray1.length(); i++) {
+                    JSONObject day = jsonArray1.getJSONObject(i);
+                    String temp = day.getJSONObject("main").get("temp").toString() + "℃";
+                    Integer dat = (Integer) day.get("dt");
+                    Date cur = new Date(new Long(dat));
+                    JSONObject weatherDetails = day.getJSONArray("weather").getJSONObject(0);
+                    String weather = weatherDetails.getString("main");
+                    String weatherDesc = weatherDetails.getString("description");
+                    String weatherIcon = weatherDetails.getString("icon");
+                    forecastList.add(new WeatherForecastCard(temp, obj.format(cur), weather, weatherDesc, weatherIcon));
+                }
+                createListView();
+                break;
+
+            case "weatherTask":
+                JSONObject jsonObject2 = new JSONObject(data[0]);
+                DateFormat obj2 = new SimpleDateFormat(" E, dd MMM");
+//                String temp = jsonObject2.getJSONObject("main").get("temp").toString() + "℃";
+                Integer dat = (Integer) jsonObject2.get("dt");
+                Date cur = new Date(new Long(dat));
+                JSONObject weatherDetails = jsonObject2.getJSONArray("weather").getJSONObject(0);
+                String weather = weatherDetails.getString("main");
+//                String weatherDesc = weatherDetails.getString("description");
+                String weatherIcon = weatherDetails.getString("icon");
+                TextView city = (TextView) findViewById(R.id.city_in_card);
+                TextView date = (TextView) findViewById(R.id.daydate2);
+                TextView weatherDesc = (TextView) findViewById(R.id.weather_description2);
+                TextView temp = (TextView) findViewById(R.id.temp2);
+                TextView wind = (TextView) findViewById(R.id.wind);
+                city.setText((CharSequence) jsonObject2.get("name"));
+                date.setText((CharSequence) obj2.format(cur));
+                weatherDesc.setText((CharSequence) weatherDetails.getString("description"));
+                temp.setText((CharSequence) jsonObject2.getJSONObject("main").get("temp").toString() + "℃");
+                wind.setText((CharSequence) "Wind:"+jsonObject2.getJSONObject("wind").get("speed").toString()+"m/s");
+                break;
+            case "coordinatesTask":
+                JSONArray ar = new JSONArray(data[0]);
+                JSONObject jsonObject3 =ar.getJSONObject(0);
+                getData(jsonObject3.get("lat").toString(), jsonObject3.get("lon").toString());
+                break;
+            default:
+                break;
         }
-        createRecyclerView();
     }
 
-    private class HTTPcall extends AsyncTask<String, String, String> {
-
+    private class HTTPcall extends AsyncTask<String, String, String[]> {
+        ProgressDialog progressDialog = new ProgressDialog(WeatherForecastDetailsActivity.this);
         @Override
         protected void onPreExecute() {
             Log.i(TAG, "Making progress...");
+            progressDialog.setMessage("processing results");
+            progressDialog.setCancelable(false);
+            progressDialog.show();
         }
 
         @Override
-        protected String doInBackground(String... params) {
-            JSONObject jObject = new JSONObject();
+        protected String[] doInBackground(String... params) {
             String result = "";
             try {
                 URL url;
@@ -109,9 +164,8 @@ public class WeatherForecastDetailsActivity extends AppCompatActivity {
                         result += (char) data;
                         data = isw.read();
                     }
-
                     // return the data to onPostExecute method
-                    return result;
+                    return new String[]{result,params[1]};
 
                 } catch (MalformedURLException e) {
                     Log.e(TAG, "MalformedURLException");
@@ -126,11 +180,12 @@ public class WeatherForecastDetailsActivity extends AppCompatActivity {
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
-            return result;
+            return  new String[]{};
         }
 
         @Override
-        protected void onPostExecute(String s) {
+        protected void onPostExecute(String s[]) {
+            progressDialog.dismiss();
             try {
                 parseData(s);
             } catch (JSONException e) {

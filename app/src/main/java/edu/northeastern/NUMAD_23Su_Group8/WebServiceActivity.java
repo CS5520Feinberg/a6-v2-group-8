@@ -6,12 +6,16 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.appcompat.widget.SearchView;
+
+import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -98,6 +102,17 @@ public class WebServiceActivity extends AppCompatActivity {
       }
     });
 
+    // set up a listener for city card click
+    CardClickListener listener = new CardClickListener() {
+      @Override
+      public void onSeeMoreClick(String city) {
+        Intent intent = new Intent(WebServiceActivity.this, WeatherForecastDetailsActivity.class);
+        intent.putExtra("city",city);
+        startActivity(intent);
+      }
+    };
+
+    weatherAdapter.onCardListener(listener);
     weatherRecyclerView.setAdapter(weatherAdapter);
   }
 
