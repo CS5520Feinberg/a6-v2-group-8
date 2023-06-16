@@ -11,7 +11,6 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class DummyDataGenerator {
 
     public static List<WeatherCard> generateData(Context context) {

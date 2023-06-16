@@ -12,6 +12,11 @@ def keystoreProperties = new Properties()
 // Load your keystore.properties file into the keystoreProperties object.
 keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 
+// Setup of OpenWeather API Credentials
+def openWeatherCredentialsPropertiesFile = rootProject.file("openWeather.credentials")
+def openWeatherCredentialsProperties = new Properties()
+openWeatherCredentialsProperties.load(new FileInputStream(openWeatherCredentialsPropertiesFile))
+
 android {
     signingConfigs {
         release {
@@ -24,6 +29,7 @@ android {
 
     buildFeatures {
         viewBinding true
+        buildConfig true
     }
 
     namespace 'edu.northeastern.NUMAD_23Su_Group8'
@@ -33,10 +39,13 @@ android {
         applicationId "edu.northeastern.NUMAD_23Su_Group8"
         minSdk 27
         targetSdk 33
+        compileSdk 33
         versionCode 1
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        buildConfigField("String", "OPEN_WEATHER_API_KEY", openWeatherCredentialsProperties['key'])
     }
 
     buildTypes {
@@ -48,6 +57,9 @@ android {
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
+    }
+    dataBinding {
+        enabled true
     }
 }
 

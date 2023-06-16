@@ -1,5 +1,6 @@
 package edu.northeastern.NUMAD_23Su_Group8;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -60,5 +61,42 @@ public class WeatherAdapter extends RecyclerView.Adapter<WeatherViewHolder> {
     public void removeItem(int position) {
         weatherCardList.remove(position);
         notifyItemRemoved(position);
+    }
+
+    /**
+     * getFilter() -- this method is implemented from the Filterable class and is used to
+     * pare down the list of results from the RecyclerView and return the smaller list to the
+     * user. The getFilter() method has to be overridden
+     * <p>
+     * TODO DOES NOT WORK CURRENTLY.
+     *
+     **/
+    @Override
+    public Filter getFilter() {
+        return new Filter() {
+            @Override
+            protected FilterResults performFiltering(CharSequence constraint) {
+                String searchQuery = constraint.toString().toLowerCase().trim();
+
+                List<WeatherCard> filteredList = new ArrayList<>();
+                for (WeatherCard card : weatherCardList) {
+                    if (card.toString().toLowerCase().contains(searchQuery)) {
+                        filteredList.add(card);
+                    }
+                }
+                FilterResults res = new FilterResults();
+
+                res.values = filteredList;
+
+                return res;
+            }
+
+            @SuppressLint("NotifyDataSetChanged")
+            @Override
+            protected void publishResults(CharSequence constraint, FilterResults results) {
+                WeatherAdapter.this.filteredWCList = (List<WeatherCard>) results.values;
+                notifyDataSetChanged();
+            }
+        };
     }
 }
