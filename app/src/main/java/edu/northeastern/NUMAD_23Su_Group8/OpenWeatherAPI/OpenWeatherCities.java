@@ -5,7 +5,9 @@ import android.content.res.Resources.NotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -13,10 +15,12 @@ import org.json.JSONObject;
 
 class OpenWeatherCities {
 
-  private static Map<String, OpenWeatherCity> cities;
+  private static List<String> citiesList;
+  private static Map<String, OpenWeatherCity> citiesMap;
 
   private static void initCitiesMap(Context context) {
-    cities = new HashMap<>();
+    citiesMap = new HashMap<>();
+    citiesList = new ArrayList<>();
     try {
 
       // opening the JSON file to read data from it.
@@ -36,11 +40,13 @@ class OpenWeatherCities {
       // adding to the List.
       for (int i = 0; i < jsonArr.length(); i++) {
         JSONObject jsonObject = jsonArr.getJSONObject(i);
+        String cityName = jsonObject.getString("name");
 
         OpenWeatherCity weatherCard = new OpenWeatherCity(jsonObject.getString("name"),
             jsonObject.getString("coor_lat"), jsonObject.getString("coor_long"));
 
-        cities.put(jsonObject.getString("name"), weatherCard);
+        citiesMap.put(cityName, weatherCard);
+        citiesList.add(cityName);
       }
 
     } catch (IOException | JSONException e) {
@@ -56,14 +62,22 @@ class OpenWeatherCities {
    * @return city object.
    */
   public static OpenWeatherCity getCity(Context context, String cityName) {
-    if (cities == null) {
+    if (citiesMap == null) {
       initCitiesMap(context);
     }
 
-    if (!cities.containsKey(cityName)) {
+    if (!citiesMap.containsKey(cityName)) {
       throw new NotFoundException("City not found in list!");
     }
 
-    return cities.get(cityName);
+    return citiesMap.get(cityName);
+  }
+
+  public static List<String> getCityList(Context context) {
+    if (citiesList == null) {
+      initCitiesMap(context);
+    }
+
+    return citiesList;
   }
 }
