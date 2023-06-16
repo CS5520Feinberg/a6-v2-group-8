@@ -3,7 +3,6 @@ package edu.northeastern.NUMAD_23Su_Group8;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +13,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class WeatherAdapter extends RecyclerView.Adapter<WeatherViewHolder> implements Filterable{
@@ -111,7 +109,7 @@ public class WeatherAdapter extends RecyclerView.Adapter<WeatherViewHolder> impl
         };
     }
 
-    public void onCardListener(CardClickListener listener) {
+    public void setCardClickListener(CardClickListener listener) {
         this.listener = listener;
     }
 }

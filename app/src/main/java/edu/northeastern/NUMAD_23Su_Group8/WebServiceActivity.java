@@ -30,13 +30,11 @@ public class WebServiceActivity extends AppCompatActivity {
   private List<WeatherCard> weatherCardList;
   private List<WeatherCard> updatedWCList;
 
-  DummyDataGenerator dummyDataGenerator;
-
   private void setupToolbar(ActivityWebServiceBinding binding) {
     // setting toolbar with back button that navigates to the main page.
     this.toolbar = binding.webServiceToolbar;
 
-    this.toolbar.setTitle("Web Service");
+    this.toolbar.setTitle("Web Service - Weather");
     this.toolbar.setTitleTextColor(Color.WHITE);
 
     setSupportActionBar(toolbar);
@@ -47,8 +45,39 @@ public class WebServiceActivity extends AppCompatActivity {
     // expanding search bar so tap takes up entire area of the element (not .
     this.weatherSearchView = binding.weatherSearchView;
 
+    this.weatherSearchView.setQueryHint("Add a city");
     this.weatherSearchView.onActionViewExpanded();
     this.weatherSearchView.clearFocus();
+  }
+
+  /**
+   * search filtering functionality required for our weather app.
+   * <p>
+   * The code provides weatherSearchView with a listener that waits for the user to start typing.
+   * Upon doing so, the code iterates through the list of WeatherCards that are added and
+   * matches the appropriate cards to the user's search (based on locationName). Then, makes the
+   * adapter's updateData call with the new list.
+   */
+  private void setupSearchViewListener() {
+    this.weatherSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+      @Override
+      public boolean onQueryTextSubmit(String query) {
+        return false;
+      }
+
+      @Override
+      public boolean onQueryTextChange(String newText) {
+
+        List<WeatherCard> updatedWCList = new ArrayList<>();
+        for (WeatherCard card : weatherCardList) {
+          if (card.getLocationName().toLowerCase().contains(newText.toLowerCase())) {
+            updatedWCList.add(card);
+          }
+        }
+        WebServiceActivity.this.weatherRecyclerViewAdapter.updateData(updatedWCList);
+        return true;
+      }
+    });
   }
 
   private void setupRecyclerView(ActivityWebServiceBinding binding) {
@@ -57,6 +86,21 @@ public class WebServiceActivity extends AppCompatActivity {
 
     this.weatherRecyclerView.setHasFixedSize(true);
     this.weatherRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+  }
+
+  private void setupRecyclerViewListenerAndAdapter() {
+    // set up a listener for city card click
+    CardClickListener cardClickListener = new CardClickListener() {
+      @Override
+      public void onSeeMoreClick(String city) {
+        Intent intent = new Intent(WebServiceActivity.this, WeatherForecastDetailsActivity.class);
+        intent.putExtra("city", city);
+        startActivity(intent);
+      }
+    };
+
+    this.weatherRecyclerViewAdapter.setCardClickListener(cardClickListener);
+    this.weatherRecyclerView.setAdapter(this.weatherRecyclerViewAdapter);
   }
 
   @Override
@@ -86,46 +130,10 @@ public class WebServiceActivity extends AppCompatActivity {
     // TODO substitute this out with calls from API.
     this.weatherCardList = dummyDataList;
 
+    // adapter needed for searchViewListener
+    this.setupSearchViewListener();
 
-    /*
-     * lines 77:96 represent the search filtering functionality required for our weather app.
-     * The code provides weatherSearchView with a listener that waits for the user to start typing.
-     * Upon doing so, the code iterates through the list of WeatherCards that are added and
-     * matches the appropriate cards to the user's search (based on locationName). Then, makes the
-     * adapter's updateData call with the new list.
-     */
-    this.weatherSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-      @Override
-      public boolean onQueryTextSubmit(String query) {
-        return false;
-      }
-
-      @Override
-      public boolean onQueryTextChange(String newText) {
-
-        List<WeatherCard> updatedWCList = new ArrayList<>();
-        for (WeatherCard card : weatherCardList) {
-          if (card.getLocationName().toLowerCase().contains(newText.toLowerCase())) {
-            updatedWCList.add(card);
-          }
-        }
-        WebServiceActivity.this.weatherRecyclerViewAdapter.updateData(updatedWCList);
-        return true;
-      }
-    });
-
-    // set up a listener for city card click
-    CardClickListener listener = new CardClickListener() {
-      @Override
-      public void onSeeMoreClick(String city) {
-        Intent intent = new Intent(WebServiceActivity.this, WeatherForecastDetailsActivity.class);
-        intent.putExtra("city", city);
-        startActivity(intent);
-      }
-    };
-
-    this.weatherRecyclerViewAdapter.onCardListener(listener);
-    this.weatherRecyclerView.setAdapter(this.weatherRecyclerViewAdapter);
+    this.setupRecyclerViewListenerAndAdapter();
   }
 
   /**
