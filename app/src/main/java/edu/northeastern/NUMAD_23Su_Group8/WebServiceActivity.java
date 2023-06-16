@@ -5,15 +5,16 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
+import androidx.appcompat.widget.SearchView;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.SearchView;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import edu.northeastern.NUMAD_23Su_Group8.databinding.ActivityWebServiceBinding;
 
@@ -23,6 +24,7 @@ public class WebServiceActivity extends AppCompatActivity {
   private ActivityWebServiceBinding binding;
   RecyclerView weatherRecyclerView;
   List<WeatherCard> weatherCardList;
+  List<WeatherCard> updatedWCList;
 
   DummyDataGenerator dummyDataGenerator;
 
@@ -64,25 +66,39 @@ public class WebServiceActivity extends AppCompatActivity {
     List<WeatherCard> dummyDataList = dummyDataGenerator.generateData(this);
 
     WeatherAdapter weatherAdapter = new WeatherAdapter(dummyDataList, this);
-    weatherRecyclerView.setAdapter(weatherAdapter);
 
+    // TODO subsitute this out with calls from API.
+    weatherCardList = dummyDataList;
+
+
+    /*
+     * lines 77:96 represent the search filtering functionality required for our weather app.
+     * The code provides weatherSearchView with a listener that waits for the user to start typing.
+     * Upon doing so, the code iterates through the list of WeatherCards that are added and
+     * matches the appropriate cards to the user's search (based on locationName). Then, makes the
+     * adapter's updateData call with the new list.
+     */
     binding.weatherSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
       @Override
       public boolean onQueryTextSubmit(String query) {
-        weatherAdapter.getFilter().filter(query);
         return false;
       }
 
       @Override
       public boolean onQueryTextChange(String newText) {
 
-        weatherAdapter.getFilter().filter(newText);
-        return false;
-
+        updatedWCList = new ArrayList<>();
+        for (WeatherCard card : weatherCardList) {
+          if (card.getLocationName().toLowerCase().contains(newText.toLowerCase())) {
+            updatedWCList.add(card);
+          }
+        }
+        weatherAdapter.updateData(updatedWCList);
+        return true;
       }
     });
 
-
+    weatherRecyclerView.setAdapter(weatherAdapter);
   }
 
   /**

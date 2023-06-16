@@ -2,6 +2,7 @@ package edu.northeastern.NUMAD_23Su_Group8;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,12 +13,12 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
-public class WeatherAdapter extends RecyclerView.Adapter<WeatherViewHolder> implements Filterable {
+public class WeatherAdapter extends RecyclerView.Adapter<WeatherViewHolder> {
 
-    private final List<WeatherCard> weatherCardList;
-    private List<WeatherCard> filteredWCList;
+    private List<WeatherCard> weatherCardList;
     private final Context context;
 
     public WeatherAdapter(List<WeatherCard> weatherCardList, Context context) {
@@ -52,11 +53,15 @@ public class WeatherAdapter extends RecyclerView.Adapter<WeatherViewHolder> impl
         return weatherCardList.size();
     }
 
+
+    public void updateData(List<WeatherCard> newList) {
+        this.weatherCardList = newList;
+        notifyDataSetChanged();
+    }
     public void removeItem(int position) {
         weatherCardList.remove(position);
         notifyItemRemoved(position);
     }
-
 
     /**
      * getFilter() -- this method is implemented from the Filterable class and is used to

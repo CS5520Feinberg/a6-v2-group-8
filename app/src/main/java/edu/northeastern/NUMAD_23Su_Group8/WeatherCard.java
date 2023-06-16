@@ -19,7 +19,6 @@ public class WeatherCard {
      * @param state
      *
      */
-    // TODO check to see if I need to add lat and lon back into this.
     public WeatherCard(String locationName, String country, String state) {
         this.locationName = locationName;
         this.country = country;
