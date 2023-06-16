@@ -40,7 +40,7 @@ public class WebServiceActivity extends AppCompatActivity {
      * using binding instead of 'setContentView(R.layout.[[activity name]])', as it makes accessing
      * the elements of the UI a bit nicer. Check ch 11 of our books to read more on it.
      */
-    binding = binding.inflate(getLayoutInflater());
+    binding = ActivityWebServiceBinding.inflate(getLayoutInflater());
     View view = binding.getRoot();
     setContentView(view);
 
