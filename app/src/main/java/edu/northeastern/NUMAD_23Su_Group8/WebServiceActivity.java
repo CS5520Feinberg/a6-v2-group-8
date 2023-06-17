@@ -81,9 +81,11 @@ public class WebServiceActivity extends AppCompatActivity {
           WebServiceActivity.this.weatherRecyclerViewAdapter.addCard(card);
         } else {
           Toast.makeText(WebServiceActivity.this,
-              matchingCitiesList.size() + "matches found! We need only 1!", 3);
+                  matchingCitiesList.size() + " matches found! We need exactly 1!", Toast.LENGTH_LONG)
+              .show();
         }
 
+        WebServiceActivity.this.weatherSearchView.clearFocus();
         return true;
       }
 
