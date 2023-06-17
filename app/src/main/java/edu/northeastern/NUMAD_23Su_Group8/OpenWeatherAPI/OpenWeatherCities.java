@@ -13,7 +13,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-class OpenWeatherCities {
+public class OpenWeatherCities {
 
   private static List<String> citiesList;
   private static Map<String, OpenWeatherCity> citiesMap;
@@ -24,7 +24,7 @@ class OpenWeatherCities {
     try {
 
       // opening the JSON file to read data from it.
-      InputStream is = context.getAssets().open("cities_with_coordinates.json");
+      InputStream is = context.getAssets().open("cities_with_coordinates_mini.json");
       int size = is.available();
       byte[] buffer = new byte[size];
 
@@ -40,9 +40,9 @@ class OpenWeatherCities {
       // adding to the List.
       for (int i = 0; i < jsonArr.length(); i++) {
         JSONObject jsonObject = jsonArr.getJSONObject(i);
-        String cityName = jsonObject.getString("name");
+        String cityName = jsonObject.getString("Name");
 
-        OpenWeatherCity weatherCard = new OpenWeatherCity(jsonObject.getString("name"),
+        OpenWeatherCity weatherCard = new OpenWeatherCity(jsonObject.getString("Name"),
             jsonObject.getString("coor_lat"), jsonObject.getString("coor_long"));
 
         citiesMap.put(cityName, weatherCard);
