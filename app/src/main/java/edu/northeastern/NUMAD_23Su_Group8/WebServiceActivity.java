@@ -6,12 +6,14 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import edu.northeastern.NUMAD_23Su_Group8.OpenWeatherAPI.OpenWeatherCities;
 import edu.northeastern.NUMAD_23Su_Group8.databinding.ActivityWebServiceBinding;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,13 +24,15 @@ public class WebServiceActivity extends AppCompatActivity {
   private ActivityWebServiceBinding binding;
 
   private Toolbar toolbar;
+
   private SearchView weatherSearchView;
+  private WeatherSearchAdapter weatherSearchAdapter;
+  private List<String> weatherSearchCityList;
 
   private RecyclerView weatherRecyclerView;
-  private WeatherAdapter weatherRecyclerViewAdapter;
-
+  private WeatherRecyclerViewAdapter weatherRecyclerViewAdapter;
   private List<WeatherCard> weatherCardList;
-  private List<WeatherCard> updatedWCList;
+
 
   private void setupToolbar(ActivityWebServiceBinding binding) {
     // setting toolbar with back button that navigates to the main page.
@@ -45,6 +49,7 @@ public class WebServiceActivity extends AppCompatActivity {
     // expanding search bar so tap takes up entire area of the element (not .
     this.weatherSearchView = binding.weatherSearchView;
 
+    this.weatherSearchView.setSubmitButtonEnabled(true);
     this.weatherSearchView.setQueryHint("Add a city");
     this.weatherSearchView.onActionViewExpanded();
     this.weatherSearchView.clearFocus();
@@ -54,28 +59,38 @@ public class WebServiceActivity extends AppCompatActivity {
    * search filtering functionality required for our weather app.
    * <p>
    * The code provides weatherSearchView with a listener that waits for the user to start typing.
-   * Upon doing so, the code iterates through the list of WeatherCards that are added and
-   * matches the appropriate cards to the user's search (based on locationName). Then, makes the
-   * adapter's updateData call with the new list.
+   * Upon doing so, the code iterates through the list of WeatherCards that are added and matches
+   * the appropriate cards to the user's search (based on locationName). Then, makes the adapter's
+   * updateData call with the new list.
    */
   private void setupSearchViewListener() {
     this.weatherSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
       @Override
       public boolean onQueryTextSubmit(String query) {
-        return false;
+        List<String> matchingCitiesList = new ArrayList<>();
+        for (String city : WebServiceActivity.this.weatherSearchCityList) {
+          if (city.toLowerCase().contains(query.toLowerCase())) {
+            matchingCitiesList.add(city);
+          }
+        }
+
+        if (matchingCitiesList.size() == 1) {
+          // TODO: change to actual hit to API
+          WeatherCard card = new WeatherCard(matchingCitiesList.get(0), "Country", "State");
+
+          WebServiceActivity.this.weatherRecyclerViewAdapter.addCard(card);
+        } else {
+          Toast.makeText(WebServiceActivity.this,
+              matchingCitiesList.size() + "matches found! We need only 1!", 3);
+        }
+
+        return true;
       }
 
       @Override
       public boolean onQueryTextChange(String newText) {
-
-        List<WeatherCard> updatedWCList = new ArrayList<>();
-        for (WeatherCard card : weatherCardList) {
-          if (card.getLocationName().toLowerCase().contains(newText.toLowerCase())) {
-            updatedWCList.add(card);
-          }
-        }
-        WebServiceActivity.this.weatherRecyclerViewAdapter.updateData(updatedWCList);
-        return true;
+        WebServiceActivity.this.weatherSearchAdapter.getFilter().filter(newText);
+        return false;
       }
     });
   }
@@ -125,7 +140,9 @@ public class WebServiceActivity extends AppCompatActivity {
     // TODO substitute out the dummyData with real data from the API.
     List<WeatherCard> dummyDataList = DummyDataGenerator.generateData(this);
 
-    this.weatherRecyclerViewAdapter = new WeatherAdapter(dummyDataList, this);
+    this.weatherRecyclerViewAdapter = new WeatherRecyclerViewAdapter(dummyDataList);
+    this.weatherSearchCityList = OpenWeatherCities.getCityList(this);
+    this.weatherSearchAdapter = new WeatherSearchAdapter(this.weatherSearchCityList);
 
     // TODO substitute this out with calls from API.
     this.weatherCardList = dummyDataList;
