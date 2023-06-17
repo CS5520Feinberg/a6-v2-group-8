@@ -14,6 +14,8 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import edu.northeastern.NUMAD_23Su_Group8.OpenWeatherAPI.OpenWeatherCities;
+import edu.northeastern.NUMAD_23Su_Group8.OpenWeatherAPI.OpenWeatherCity;
+import edu.northeastern.NUMAD_23Su_Group8.OpenWeatherAPI.OpenWeatherRequestsHelper;
 import edu.northeastern.NUMAD_23Su_Group8.databinding.ActivityWebServiceBinding;
 import java.util.ArrayList;
 import java.util.List;
@@ -75,8 +77,18 @@ public class WebServiceActivity extends AppCompatActivity {
         }
 
         if (matchingCitiesList.size() == 1) {
-          // TODO: change to actual hit to API
           WeatherCard card = new WeatherCard(matchingCitiesList.get(0), "Country", "State");
+
+          OpenWeatherCity city = OpenWeatherCities.getCity(WebServiceActivity.this,
+              matchingCitiesList.get(0));
+          // TODO: change to use actual weather data from API
+          // TODO: move fetch for data to separate thread
+
+          // can be done in following steps:
+          // 1. create ThreadHandler for WebServiceActivity
+          // 2. create runnable from this line and add to handler
+
+          //String cityName = OpenWeatherRequestsHelper.getCityWeather(city);
 
           WebServiceActivity.this.weatherRecyclerViewAdapter.addCard(card);
         } else {
