@@ -139,15 +139,9 @@ public class WebServiceActivity extends AppCompatActivity {
     this.setupSearchView(binding);
     this.setupRecyclerView(binding);
 
-    // TODO substitute out the dummyData with real data from the API.
-    List<WeatherCard> dummyDataList = DummyDataGenerator.generateData(this);
-
-    this.weatherRecyclerViewAdapter = new WeatherRecyclerViewAdapter(dummyDataList);
+    this.weatherRecyclerViewAdapter = new WeatherRecyclerViewAdapter(this.weatherCardList);
     this.weatherSearchCityList = OpenWeatherCities.getCityList(this);
     this.weatherSearchAdapter = new WeatherSearchAdapter(this.weatherSearchCityList);
-
-    // TODO substitute this out with calls from API.
-    this.weatherCardList = dummyDataList;
 
     // adapter needed for searchViewListener
     this.setupSearchViewListener();
