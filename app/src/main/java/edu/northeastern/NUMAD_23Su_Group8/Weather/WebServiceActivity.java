@@ -54,6 +54,7 @@ public class WebServiceActivity extends AppCompatActivity {
     // expanding search bar so tap takes up entire area of the element (not .
     this.weatherSearchView = binding.weatherSearchView;
 
+    this.weatherSearchView.setIconified(true);
     this.weatherSearchView.setSubmitButtonEnabled(true);
     this.weatherSearchView.setQueryHint("Add a city");
     this.weatherSearchView.onActionViewExpanded();
@@ -93,6 +94,7 @@ public class WebServiceActivity extends AppCompatActivity {
         }
 
         WebServiceActivity.this.weatherSearchView.clearFocus();
+        WebServiceActivity.this.weatherSearchView.setIconified(true);
         return true;
       }
 
