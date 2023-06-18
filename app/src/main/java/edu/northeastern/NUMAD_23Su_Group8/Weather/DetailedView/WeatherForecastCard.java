@@ -26,7 +26,7 @@ public class WeatherForecastCard  implements Parcelable {
     }
 
     public String getTemp() {
-        return temp.toString();
+        return temp;
     }
 
     public String getWeather() {

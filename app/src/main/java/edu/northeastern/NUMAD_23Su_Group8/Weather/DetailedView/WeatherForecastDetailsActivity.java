@@ -91,11 +91,11 @@ public class WeatherForecastDetailsActivity extends AppCompatActivity {
         switch (data[1]) {
             case "forecastTask":
                 JSONObject jsonObject = new JSONObject(data[0]);
-                DateFormat obj = new SimpleDateFormat(" E, dd MMM");
+                DateFormat obj = new SimpleDateFormat("E, dd MMM");
                 JSONArray jsonArray1 = jsonObject.getJSONArray("list");
                 for (int i = 0; i < jsonArray1.length(); i++) {
                     JSONObject day = jsonArray1.getJSONObject(i);
-                    String temp = day.getJSONObject("main").get("temp").toString() + "℃";
+                    String temp = day.getJSONObject("main").get("temp") + " ℃";
                     Integer dat = (Integer) day.get("dt");
                     Date cur = new Date(new Long(dat));
                     JSONObject weatherDetails = day.getJSONArray("weather").getJSONObject(0);
@@ -109,7 +109,7 @@ public class WeatherForecastDetailsActivity extends AppCompatActivity {
 
             case "weatherTask":
                 JSONObject jsonObject2 = new JSONObject(data[0]);
-                DateFormat obj2 = new SimpleDateFormat(" E, dd MMM");
+                DateFormat obj2 = new SimpleDateFormat("E, dd MMM");
 //                String temp = jsonObject2.getJSONObject("main").get("temp").toString() + "℃";
                 Integer dat = (Integer) jsonObject2.get("dt");
                 Date cur = new Date(new Long(dat));
@@ -125,8 +125,8 @@ public class WeatherForecastDetailsActivity extends AppCompatActivity {
                 city.setText((CharSequence) jsonObject2.get("name"));
                 date.setText((CharSequence) obj2.format(cur));
                 weatherDesc.setText((CharSequence) weatherDetails.getString("description"));
-                temp.setText((CharSequence) jsonObject2.getJSONObject("main").get("temp").toString() + "℃");
-                wind.setText((CharSequence) "Wind:"+jsonObject2.getJSONObject("wind").get("speed").toString()+"m/s");
+                temp.setText((CharSequence) jsonObject2.getJSONObject("main").get("temp").toString() + " ℃");
+                wind.setText((CharSequence) "Wind: "+jsonObject2.getJSONObject("wind").get("speed").toString()+" m/s");
                 break;
             case "coordinatesTask":
                 JSONArray ar = new JSONArray(data[0]);

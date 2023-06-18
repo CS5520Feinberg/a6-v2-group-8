@@ -13,7 +13,7 @@ public class OpenWeatherCityData {
     String temperatureString = temperature;
 
     Double tempDouble = Double.parseDouble(temperatureString) - 273.15;
-    this.temperature = String.format("%.2f °C", tempDouble);
+    this.temperature = String.format("%.2f ℃", tempDouble);
   }
 
 
