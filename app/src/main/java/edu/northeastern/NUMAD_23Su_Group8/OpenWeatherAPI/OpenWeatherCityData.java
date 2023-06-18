@@ -13,7 +13,7 @@ public class OpenWeatherCityData {
     this.cityName = cityName;
 
     Double tempDouble = Double.parseDouble(temperature) - 273.15;
-    this.temperature = String.format("%.2f ℃", tempDouble);
+    this.temperature = String.format("%.1f ℃", tempDouble);
 
     this.icon = icon;
   }
