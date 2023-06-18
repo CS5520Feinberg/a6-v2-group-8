@@ -1,67 +1,57 @@
 package edu.northeastern.NUMAD_23Su_Group8;
 
 /**
- * WeatherCard -- represents the object of what we will receive from the OpenWeatherMap API response.
- *
+ * WeatherCard -- represents the object of what we will receive from the OpenWeatherMap API
+ * response.
  */
 public class WeatherCard {
 
-    private String locationName;
-    private String country;
-    private String state;
-    private int latitude;
-    private int longitude;
+  private String locationName;
+  private String temperature;
+  private int latitude;
+  private int longitude;
 
-    /**
-     * Five argument constructor for WeatherCard. Will set the locationName, country, state for the response we receive from the API call.
-     * @param locationName
-     * @param country
-     * @param state
-     *
-     */
-    public WeatherCard(String locationName, String country, String state) {
-        this.locationName = locationName;
-        this.country = country;
-        this.state = state;
-    }
+  /**
+   * Five argument constructor for WeatherCard. Will set the locationName, country, state for the
+   * response we receive from the API call.
+   *
+   * @param locationName
+   * @param temperature
+   */
+  public WeatherCard(String locationName, String temperature) {
+    this.locationName = locationName;
+    this.temperature = temperature;
+  }
 
-    public String getLocationName() {
-        return locationName;
-    }
+  public String getLocationName() {
+    return locationName;
+  }
 
-    public void setLocationName(String locationName) {
-        this.locationName = locationName;
-    }
+  public void setLocationName(String locationName) {
+    this.locationName = locationName;
+  }
 
-    public String getCountry() {
-        return country;
-    }
+  public String getTemperature() {
+    return temperature;
+  }
 
-    public void setCountry(String country) {
-        this.country = country;
-    }
+  public void setTemperature(String temperature) {
+    this.temperature = temperature;
+  }
 
-    public String getState() {
-        return state;
-    }
+  public int getLatitude() {
+    return latitude;
+  }
 
-    public void setState(String state) {
-        this.state = state;
-    }
+  public void setLatitude(int latitude) {
+    this.latitude = latitude;
+  }
 
-    public int getLatitude() {
-        return latitude;
-    }
+  public int getLongitude() {
+    return longitude;
+  }
 
-    public void setLatitude(int latitude) {
-        this.latitude = latitude;
-    }
-
-    public int getLongitude() {
-        return longitude;
-    }
-
-    public void setLongitude(int longitude) {
-        this.longitude = longitude;
-    }
+  public void setLongitude(int longitude) {
+    this.longitude = longitude;
+  }
 }

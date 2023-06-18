@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import edu.northeastern.NUMAD_23Su_Group8.OpenWeatherAPI.OpenWeatherCities;
 import edu.northeastern.NUMAD_23Su_Group8.OpenWeatherAPI.OpenWeatherCity;
+import edu.northeastern.NUMAD_23Su_Group8.OpenWeatherAPI.OpenWeatherCityData;
 import edu.northeastern.NUMAD_23Su_Group8.OpenWeatherAPI.OpenWeatherRequestsHelper;
 import edu.northeastern.NUMAD_23Su_Group8.databinding.ActivityWebServiceBinding;
 import java.util.ArrayList;
@@ -210,11 +211,18 @@ public class WebServiceActivity extends AppCompatActivity {
       OpenWeatherCity cityWithCoordinates =
           OpenWeatherCities.getCity(WebServiceActivity.this, cityName);
 
-      String cityName = OpenWeatherRequestsHelper.getCityWeather(cityWithCoordinates);
-      WeatherCard card = new WeatherCard(cityName, "Country", "State");
+      OpenWeatherCityData cityData = OpenWeatherRequestsHelper.getCityWeather(
+          WebServiceActivity.this, cityWithCoordinates);
+      if (cityData != null) {
+        WeatherCard card = new WeatherCard(cityData.getCityName(), cityData.getTemperature());
 
-      WebServiceActivity.this.handler.post(
-          () -> WebServiceActivity.this.weatherRecyclerViewAdapter.addCard(card));
+        WebServiceActivity.this.handler.post(
+            () -> WebServiceActivity.this.weatherRecyclerViewAdapter.addCard(card));
+      } else {
+        WebServiceActivity.this.handler.post(() -> Toast.makeText(WebServiceActivity.this,
+                "Error occurred while retrieving data from API!", Toast.LENGTH_LONG)
+            .show());
+      }
     }
   }
 }

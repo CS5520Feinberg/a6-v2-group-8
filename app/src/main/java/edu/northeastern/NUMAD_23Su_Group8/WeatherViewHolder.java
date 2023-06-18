@@ -8,25 +8,21 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 /**
- * WeatherViewHolder -- basic implementation of what will make up an individual item in the RecyclerView list
- * -- includes location name, the weather, and a delete button.
+ * WeatherViewHolder -- basic implementation of what will make up an individual item in the
+ * RecyclerView list -- includes location name, the weather, and a delete button.
  */
 public class WeatherViewHolder extends RecyclerView.ViewHolder {
 
-    public TextView locationName;
-    public TextView state;
-    public TextView country;
-    public Button deleteBtn;
-    public Button moreDetails;
+  public TextView locationName;
+  public TextView temperature;
+  public Button deleteBtn;
+  public Button moreDetails;
 
-    public SearchView searchView;
-    public WeatherViewHolder(@NonNull View itemView) {
-        super(itemView);
-        this.locationName = itemView.findViewById(R.id.locationName);
-        this.state = itemView.findViewById(R.id.state);
-        this.country = itemView.findViewById(R.id.country);
-        this.deleteBtn = itemView.findViewById(R.id.deleteBtn);
-        this.searchView = itemView.findViewById(R.id.weatherSearchView);
-        this.moreDetails = itemView.findViewById(R.id.moreDetailsBtn);
-    }
+  public WeatherViewHolder(@NonNull View itemView) {
+    super(itemView);
+    this.locationName = itemView.findViewById(R.id.locationName);
+    this.temperature = itemView.findViewById(R.id.temperature);
+    this.deleteBtn = itemView.findViewById(R.id.deleteBtn);
+    this.moreDetails = itemView.findViewById(R.id.moreDetailsBtn);
+  }
 }

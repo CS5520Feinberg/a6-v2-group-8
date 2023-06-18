@@ -33,8 +33,7 @@ public class WeatherRecyclerViewAdapter extends RecyclerView.Adapter<WeatherView
   @Override
   public void onBindViewHolder(@NonNull WeatherViewHolder holder, int position) {
     holder.locationName.setText(weatherCardList.get(position).getLocationName());
-    holder.state.setText(weatherCardList.get(position).getState());
-    holder.country.setText(weatherCardList.get(position).getCountry());
+    holder.temperature.setText(weatherCardList.get(position).getTemperature());
 
     holder.deleteBtn.setOnClickListener(v -> {
       int currentPosition = holder.getAdapterPosition();

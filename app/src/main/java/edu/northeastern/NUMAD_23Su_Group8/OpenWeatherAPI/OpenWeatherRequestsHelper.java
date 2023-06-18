@@ -1,10 +1,13 @@
 package edu.northeastern.NUMAD_23Su_Group8.OpenWeatherAPI;
 
+import android.content.Context;
 import android.util.Log;
 import android.util.Patterns;
 import android.webkit.URLUtil;
+import android.widget.Toast;
 import edu.northeastern.NUMAD_23Su_Group8.BuildConfig;
 import edu.northeastern.NUMAD_23Su_Group8.WeatherCard;
+import edu.northeastern.NUMAD_23Su_Group8.WebServiceActivity;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -22,10 +25,11 @@ import org.json.JSONObject;
 public class OpenWeatherRequestsHelper {
 
   private final static String baseURL = "https://api.openweathermap.org/data/2.5/";
-  private final static String WEATHER_URL = "https://api.openweathermap.org/geo/1.0/reverse?";
+  private final static String REVERSE_URL = "https://api.openweathermap.org/geo/1.0/reverse?";
+  private final static String WEATHER_URL = "https://api.openweathermap.org/data/2.5/weather?";
   private final static String API_KEY = BuildConfig.OPEN_WEATHER_API_KEY;
 
-  public static String getCityWeather(OpenWeatherCity city) {
+  public static OpenWeatherCityData getCityWeather(Context context, OpenWeatherCity city) {
     try {
 
       String urlString = String.format(WEATHER_URL + "lat=%s&lon=%s&appid=%s", city.getLatitude(),
@@ -34,46 +38,45 @@ public class OpenWeatherRequestsHelper {
       String resp = httpResponse(url);
 
       JSONObject resultJSON = new JSONObject(resp);
-
-      JSONObject coordinatesJSON = resultJSON.getJSONObject("coord");
-      String latitude = coordinatesJSON.getString("lat");
-      String longitude = coordinatesJSON.getString("lon");
+//
+//      JSONObject coordinatesJSON = resultJSON.getJSONObject("coord");
+//      String latitude = coordinatesJSON.getString("lat");
+//      String longitude = coordinatesJSON.getString("lon");
 
       String name = resultJSON.getString("name");
 
-      JSONArray weatherJSONArray = resultJSON.getJSONArray("weather");
-
-      String base = resultJSON.getString("base");
+//      JSONArray weatherJSONArray = resultJSON.getJSONArray("weather");
+//
+//      String base = resultJSON.getString("base");
 
       JSONObject mainJSON = resultJSON.getJSONObject("main");
       String temperature = mainJSON.getString("temp");
-      String feels_like = mainJSON.getString("feels_like");
-      String temp_min = mainJSON.getString("temp_min");
-      String temp_max = mainJSON.getString("temp_max");
-      String pressure = mainJSON.getString("pressure");
-      String humidity = mainJSON.getString("humidity");
-      String sea_level = mainJSON.getString("sea_level");
-      String ground_level = mainJSON.getString("grnd_level");
+//      String feels_like = mainJSON.getString("feels_like");
+//      String temp_min = mainJSON.getString("temp_min");
+//      String temp_max = mainJSON.getString("temp_max");
+//      String pressure = mainJSON.getString("pressure");
+//      String humidity = mainJSON.getString("humidity");
+//      String sea_level = mainJSON.getString("sea_level");
+//      String ground_level = mainJSON.getString("grnd_level");
+//
+//      Integer visibility = resultJSON.getInt("visibility");
+//
+//      JSONObject windJSON = resultJSON.getJSONObject("wind");
+//      Double speed = windJSON.getDouble("speed");
+//      String deg = windJSON.getString("deg");
+//      String gust = windJSON.getString("gust");
+//
+//      JSONObject cloudsJSON = resultJSON.getJSONObject("clouds");
+//      String clouds_all = cloudsJSON.getString("all");
+//
+//      String date = resultJSON.getString("dt");
+//
+//      String timezone = resultJSON.getString("timezone");
 
-      Integer visibility = resultJSON.getInt("visibility");
-
-      JSONObject windJSON = resultJSON.getJSONObject("wind");
-      Double speed = windJSON.getDouble("speed");
-      String deg = windJSON.getString("deg");
-      String gust = windJSON.getString("gust");
-
-      JSONObject cloudsJSON = resultJSON.getJSONObject("clouds");
-      String clouds_all = cloudsJSON.getString("all");
-
-      String date = resultJSON.getString("dt");
-
-      String timezone = resultJSON.getString("timezone");
-
-      return name;
-
-      // TODO: return entire weather object
+      return new OpenWeatherCityData(name, temperature);
 
     } catch (JSONException | IOException e) {
+      Log.e("Request Helper", e.getMessage());
       e.printStackTrace();
     }
 
