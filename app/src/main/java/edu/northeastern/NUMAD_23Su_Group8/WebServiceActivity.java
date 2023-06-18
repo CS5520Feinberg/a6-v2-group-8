@@ -3,6 +3,7 @@ package edu.northeastern.NUMAD_23Su_Group8;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.Parcelable;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,8 +23,8 @@ import java.util.List;
 
 public class WebServiceActivity extends AppCompatActivity {
 
-
   private ActivityWebServiceBinding binding;
+  private Handler handler = new Handler();
 
   private Toolbar toolbar;
 
@@ -57,6 +58,11 @@ public class WebServiceActivity extends AppCompatActivity {
     this.weatherSearchView.clearFocus();
   }
 
+  private void addCityToRecyclerView(String cityName) {
+    OpenWeatherGetCityDataThread thread = new OpenWeatherGetCityDataThread(cityName);
+    thread.start();
+  }
+
   /**
    * search filtering functionality required for our weather app.
    * <p>
@@ -77,20 +83,7 @@ public class WebServiceActivity extends AppCompatActivity {
         }
 
         if (matchingCitiesList.size() == 1) {
-          WeatherCard card = new WeatherCard(matchingCitiesList.get(0), "Country", "State");
-
-          OpenWeatherCity city = OpenWeatherCities.getCity(WebServiceActivity.this,
-              matchingCitiesList.get(0));
-          // TODO: change to use actual weather data from API
-          // TODO: move fetch for data to separate thread
-
-          // can be done in following steps:
-          // 1. create ThreadHandler for WebServiceActivity
-          // 2. create runnable from this line and add to handler
-
-          //String cityName = OpenWeatherRequestsHelper.getCityWeather(city);
-
-          WebServiceActivity.this.weatherRecyclerViewAdapter.addCard(card);
+          WebServiceActivity.this.addCityToRecyclerView(matchingCitiesList.get(0));
         } else {
           Toast.makeText(WebServiceActivity.this,
                   matchingCitiesList.size() + " matches found! We need exactly 1!", Toast.LENGTH_LONG)
@@ -202,5 +195,26 @@ public class WebServiceActivity extends AppCompatActivity {
       this.weatherRecyclerView.getLayoutManager().onRestoreInstanceState(recyclerState);
     }
 
+  }
+
+  class OpenWeatherGetCityDataThread extends Thread {
+
+    private String cityName;
+
+    public OpenWeatherGetCityDataThread(String cityName) {
+      this.cityName = cityName;
+    }
+
+    @Override
+    public void run() {
+      OpenWeatherCity cityWithCoordinates =
+          OpenWeatherCities.getCity(WebServiceActivity.this, cityName);
+
+      String cityName = OpenWeatherRequestsHelper.getCityWeather(cityWithCoordinates);
+      WeatherCard card = new WeatherCard(cityName, "Country", "State");
+
+      WebServiceActivity.this.handler.post(
+          () -> WebServiceActivity.this.weatherRecyclerViewAdapter.addCard(card));
+    }
   }
 }
