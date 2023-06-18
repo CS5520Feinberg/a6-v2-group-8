@@ -219,7 +219,7 @@ public class WebServiceActivity extends AppCompatActivity {
       OpenWeatherCityData cityData = OpenWeatherRequestsHelper.getCityWeather(
           WebServiceActivity.this, cityWithCoordinates);
       if (cityData != null) {
-        WeatherCard card = new WeatherCard(cityData.getCityName(), cityData.getTemperature());
+        WeatherCard card = new WeatherCard(cityData.getCityName(), cityData.getTemperature(), cityData.getIcon());
 
         WebServiceActivity.this.handler.post(
             () -> WebServiceActivity.this.weatherRecyclerViewAdapter.addCard(card));

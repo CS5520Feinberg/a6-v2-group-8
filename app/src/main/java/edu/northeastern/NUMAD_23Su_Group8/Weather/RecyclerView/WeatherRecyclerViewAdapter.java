@@ -1,15 +1,20 @@
 package edu.northeastern.NUMAD_23Su_Group8.Weather.RecyclerView;
 
+import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import androidx.annotation.NonNull;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.recyclerview.widget.RecyclerView;
+import edu.northeastern.NUMAD_23Su_Group8.OpenWeatherAPI.OpenWeatherIconHelper;
 import edu.northeastern.NUMAD_23Su_Group8.R;
 import java.util.List;
 
 public class WeatherRecyclerViewAdapter extends RecyclerView.Adapter<WeatherViewHolder>{
 
+  private Context parentContext;
   private List<WeatherCard> weatherCardList;
 
   private CardClickListener listener;
@@ -26,7 +31,8 @@ public class WeatherRecyclerViewAdapter extends RecyclerView.Adapter<WeatherView
   @NonNull
   @Override
   public WeatherViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-    View view = LayoutInflater.from(parent.getContext())
+    this.parentContext = parent.getContext();
+    View view = LayoutInflater.from(this.parentContext)
         .inflate(R.layout.card_view, parent, false);
     return new WeatherViewHolder(view);
   }
@@ -35,6 +41,11 @@ public class WeatherRecyclerViewAdapter extends RecyclerView.Adapter<WeatherView
   public void onBindViewHolder(@NonNull WeatherViewHolder holder, int position) {
     holder.locationName.setText(weatherCardList.get(position).getLocationName());
     holder.temperature.setText(weatherCardList.get(position).getTemperature());
+
+    int iconResource = OpenWeatherIconHelper.getWeatherIconImageResource(this.parentContext, weatherCardList.get(position).getIcon());
+    Drawable iconDrawable = ResourcesCompat.getDrawable(parentContext.getResources(), iconResource, parentContext.getTheme());
+
+    holder.icon.setImageDrawable(iconDrawable);
 
     holder.deleteBtn.setOnClickListener(v -> {
       int currentPosition = holder.getAdapterPosition();

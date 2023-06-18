@@ -6,22 +6,28 @@ public class OpenWeatherCityData {
 
   private final String cityName;
   private final String temperature;
+  private final String icon;
 
   @SuppressLint("DefaultLocale")
-  public OpenWeatherCityData(String cityName, String temperature) {
+  public OpenWeatherCityData(String cityName, String temperature, String icon) {
     this.cityName = cityName;
-    String temperatureString = temperature;
 
-    Double tempDouble = Double.parseDouble(temperatureString) - 273.15;
+    Double tempDouble = Double.parseDouble(temperature) - 273.15;
     this.temperature = String.format("%.2f ℃", tempDouble);
+
+    this.icon = icon;
   }
 
 
   public String getCityName() {
-    return cityName;
+    return this.cityName;
   }
 
   public String getTemperature() {
-    return temperature;
+    return this.temperature;
+  }
+
+  public String getIcon() {
+    return this.icon;
   }
 }

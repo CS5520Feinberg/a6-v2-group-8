@@ -8,19 +8,20 @@ public class WeatherCard {
 
   private String locationName;
   private String temperature;
-  private int latitude;
-  private int longitude;
+  private String icon;
 
   /**
    * Five argument constructor for WeatherCard. Will set the locationName, country, state for the
    * response we receive from the API call.
    *
-   * @param locationName
-   * @param temperature
+   * @param locationName the name of the city.
+   * @param temperature  the current temperature in the city.
+   * @param icon         the icon for the weather in the city.
    */
-  public WeatherCard(String locationName, String temperature) {
+  public WeatherCard(String locationName, String temperature, String icon) {
     this.locationName = locationName;
     this.temperature = temperature;
+    this.icon = icon;
   }
 
   public String getLocationName() {
@@ -39,19 +40,11 @@ public class WeatherCard {
     this.temperature = temperature;
   }
 
-  public int getLatitude() {
-    return latitude;
+  public String getIcon() {
+    return icon;
   }
 
-  public void setLatitude(int latitude) {
-    this.latitude = latitude;
-  }
-
-  public int getLongitude() {
-    return longitude;
-  }
-
-  public void setLongitude(int longitude) {
-    this.longitude = longitude;
+  public void setIcon(String icon) {
+    this.icon = icon;
   }
 }

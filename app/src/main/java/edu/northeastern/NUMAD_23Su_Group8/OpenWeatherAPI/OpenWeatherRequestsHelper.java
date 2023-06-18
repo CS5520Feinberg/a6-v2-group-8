@@ -9,6 +9,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -16,6 +17,9 @@ public class OpenWeatherRequestsHelper {
 
   private final static String baseURL = "https://api.openweathermap.org/data/2.5/";
   private final static String REVERSE_URL = "https://api.openweathermap.org/geo/1.0/reverse?";
+  /**
+   * API Endpoint URI for current day weather.
+   */
   private final static String WEATHER_URL = "https://api.openweathermap.org/data/2.5/weather?";
   private final static String API_KEY = BuildConfig.OPEN_WEATHER_API_KEY;
 
@@ -35,7 +39,10 @@ public class OpenWeatherRequestsHelper {
 
       String name = resultJSON.getString("name");
 
-//      JSONArray weatherJSONArray = resultJSON.getJSONArray("weather");
+      JSONArray weatherJSONArray = resultJSON.getJSONArray("weather");
+      JSONObject weatherJSON = weatherJSONArray.getJSONObject(0);
+
+      String icon = weatherJSON.getString("icon");
 //
 //      String base = resultJSON.getString("base");
 
@@ -63,7 +70,7 @@ public class OpenWeatherRequestsHelper {
 //
 //      String timezone = resultJSON.getString("timezone");
 
-      return new OpenWeatherCityData(name, temperature);
+      return new OpenWeatherCityData(name, temperature, icon);
 
     } catch (JSONException | IOException e) {
       Log.e("Request Helper", e.getMessage());
@@ -71,17 +78,6 @@ public class OpenWeatherRequestsHelper {
     }
 
     return null;
-  }
-
-
-  public static class MyException extends Exception {
-
-    public MyException() {
-    }
-
-    public MyException(String message) {
-      super(message);
-    }
   }
 
   private static String httpResponse(URL url) throws IOException {
