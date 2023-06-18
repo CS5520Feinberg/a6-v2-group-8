@@ -1,4 +1,4 @@
-package edu.northeastern.NUMAD_23Su_Group8;
+package edu.northeastern.NUMAD_23Su_Group8.Weather.DetailedView;
 
 import static android.content.ContentValues.TAG;
 
@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import edu.northeastern.NUMAD_23Su_Group8.R;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;

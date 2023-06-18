@@ -1,4 +1,4 @@
-package edu.northeastern.NUMAD_23Su_Group8;
+package edu.northeastern.NUMAD_23Su_Group8.Weather;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -18,6 +18,11 @@ import edu.northeastern.NUMAD_23Su_Group8.OpenWeatherAPI.OpenWeatherCities;
 import edu.northeastern.NUMAD_23Su_Group8.OpenWeatherAPI.OpenWeatherCity;
 import edu.northeastern.NUMAD_23Su_Group8.OpenWeatherAPI.OpenWeatherCityData;
 import edu.northeastern.NUMAD_23Su_Group8.OpenWeatherAPI.OpenWeatherRequestsHelper;
+import edu.northeastern.NUMAD_23Su_Group8.Weather.DetailedView.WeatherForecastDetailsActivity;
+import edu.northeastern.NUMAD_23Su_Group8.Weather.RecyclerView.CardClickListener;
+import edu.northeastern.NUMAD_23Su_Group8.Weather.RecyclerView.WeatherCard;
+import edu.northeastern.NUMAD_23Su_Group8.Weather.RecyclerView.WeatherRecyclerViewAdapter;
+import edu.northeastern.NUMAD_23Su_Group8.Weather.Search.WeatherSearchAdapter;
 import edu.northeastern.NUMAD_23Su_Group8.databinding.ActivityWebServiceBinding;
 import java.util.ArrayList;
 import java.util.List;

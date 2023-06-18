@@ -2,23 +2,13 @@ package edu.northeastern.NUMAD_23Su_Group8.OpenWeatherAPI;
 
 import android.content.Context;
 import android.util.Log;
-import android.util.Patterns;
-import android.webkit.URLUtil;
-import android.widget.Toast;
 import edu.northeastern.NUMAD_23Su_Group8.BuildConfig;
-import edu.northeastern.NUMAD_23Su_Group8.WeatherCard;
-import edu.northeastern.NUMAD_23Su_Group8.WebServiceActivity;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.ProtocolException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 

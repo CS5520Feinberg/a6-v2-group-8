@@ -1,10 +1,11 @@
-package edu.northeastern.NUMAD_23Su_Group8;
+package edu.northeastern.NUMAD_23Su_Group8.Weather.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+import edu.northeastern.NUMAD_23Su_Group8.R;
 import java.util.List;
 
 public class WeatherRecyclerViewAdapter extends RecyclerView.Adapter<WeatherViewHolder>{

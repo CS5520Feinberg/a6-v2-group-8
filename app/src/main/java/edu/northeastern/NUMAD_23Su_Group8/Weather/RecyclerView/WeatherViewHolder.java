@@ -1,4 +1,4 @@
-package edu.northeastern.NUMAD_23Su_Group8;
+package edu.northeastern.NUMAD_23Su_Group8.Weather.RecyclerView;
 
 import android.view.View;
 import android.widget.Button;
@@ -6,6 +6,7 @@ import android.widget.SearchView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+import edu.northeastern.NUMAD_23Su_Group8.R;
 
 /**
  * WeatherViewHolder -- basic implementation of what will make up an individual item in the

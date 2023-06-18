@@ -1,4 +1,4 @@
-package edu.northeastern.NUMAD_23Su_Group8;
+package edu.northeastern.NUMAD_23Su_Group8.Weather.RecyclerView;
 
 /**
  * WeatherCard -- represents the object of what we will receive from the OpenWeatherMap API

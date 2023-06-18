@@ -1,4 +1,4 @@
-package edu.northeastern.NUMAD_23Su_Group8;
+package edu.northeastern.NUMAD_23Su_Group8.Weather.DetailedView;
 
 import android.os.Parcel;
 import android.os.Parcelable;

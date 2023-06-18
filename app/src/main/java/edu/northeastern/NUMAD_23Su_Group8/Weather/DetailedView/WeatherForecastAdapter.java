@@ -1,7 +1,6 @@
-package edu.northeastern.NUMAD_23Su_Group8;
+package edu.northeastern.NUMAD_23Su_Group8.Weather.DetailedView;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,8 +10,8 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.content.ContextCompat;
 
+import edu.northeastern.NUMAD_23Su_Group8.R;
 import java.util.List;
 
 public class WeatherForecastAdapter extends ArrayAdapter<WeatherForecastCard> {
