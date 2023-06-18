@@ -74,14 +74,17 @@
 
       <TextView
         android:id="@+id/city_in_card"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:textColor="@color/white"
         android:textSize="40sp"
+        android:ellipsize="end"
+        android:maxLines="1"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/temp2"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="City Name" />
+        tools:text="City Name very long" />
 
       <TextView
         android:id="@+id/daydate2"
