@@ -15,11 +15,11 @@ import edu.northeastern.NUMAD_23Su_Group8.R;
  */
 public class WeatherViewHolder extends RecyclerView.ViewHolder {
 
-  public TextView locationName;
-  public TextView temperature;
-  public ImageView icon;
-  public Button deleteBtn;
-  public Button moreDetails;
+  private final TextView locationName;
+  private final TextView temperature;
+  private final ImageView icon;
+  private final Button deleteBtn;
+  private final Button moreDetails;
 
   public WeatherViewHolder(@NonNull View itemView) {
     super(itemView);
@@ -28,5 +28,25 @@ public class WeatherViewHolder extends RecyclerView.ViewHolder {
     this.icon = itemView.findViewById(R.id.card_weather_icon);
     this.deleteBtn = itemView.findViewById(R.id.deleteBtn);
     this.moreDetails = itemView.findViewById(R.id.moreDetailsBtn);
+  }
+
+  public TextView getLocationName() {
+    return locationName;
+  }
+
+  public TextView getTemperature() {
+    return temperature;
+  }
+
+  public ImageView getIcon() {
+    return icon;
+  }
+
+  public Button getDeleteBtn() {
+    return deleteBtn;
+  }
+
+  public Button getMoreDetails() {
+    return moreDetails;
   }
 }

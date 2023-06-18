@@ -39,15 +39,15 @@ public class WeatherRecyclerViewAdapter extends RecyclerView.Adapter<WeatherView
 
   @Override
   public void onBindViewHolder(@NonNull WeatherViewHolder holder, int position) {
-    holder.locationName.setText(weatherCardList.get(position).getLocationName());
-    holder.temperature.setText(weatherCardList.get(position).getTemperature());
+    holder.getLocationName().setText(weatherCardList.get(position).getLocationName());
+    holder.getTemperature().setText(weatherCardList.get(position).getTemperature());
 
     int iconResource = OpenWeatherIconHelper.getWeatherIconImageResource(this.parentContext, weatherCardList.get(position).getIcon());
     Drawable iconDrawable = ResourcesCompat.getDrawable(parentContext.getResources(), iconResource, parentContext.getTheme());
 
-    holder.icon.setImageDrawable(iconDrawable);
+    holder.getIcon().setImageDrawable(iconDrawable);
 
-    holder.deleteBtn.setOnClickListener(v -> {
+    holder.getDeleteBtn().setOnClickListener(v -> {
       int currentPosition = holder.getAdapterPosition();
       if (currentPosition != RecyclerView.NO_POSITION) {
         this.removeItem(currentPosition);
@@ -55,7 +55,7 @@ public class WeatherRecyclerViewAdapter extends RecyclerView.Adapter<WeatherView
     });
 
     // pass the selected city name through the listener to weather details activity
-    holder.moreDetails.setOnClickListener(v -> {
+    holder.getMoreDetails().setOnClickListener(v -> {
       int currentPosition = holder.getAdapterPosition();
       if (currentPosition != RecyclerView.NO_POSITION) {
         listener.onSeeMoreClick(weatherCardList.get(position).getLocationName());

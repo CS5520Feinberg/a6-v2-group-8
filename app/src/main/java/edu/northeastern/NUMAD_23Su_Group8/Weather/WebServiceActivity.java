@@ -29,10 +29,7 @@ import java.util.List;
 
 public class WebServiceActivity extends AppCompatActivity {
 
-  private ActivityWebServiceBinding binding;
-  private Handler handler = new Handler();
-
-  private Toolbar toolbar;
+  private final Handler handler = new Handler();
 
   private SearchView weatherSearchView;
   private WeatherSearchAdapter weatherSearchAdapter;
@@ -40,15 +37,14 @@ public class WebServiceActivity extends AppCompatActivity {
 
   private RecyclerView weatherRecyclerView;
   private WeatherRecyclerViewAdapter weatherRecyclerViewAdapter;
-  private List<WeatherCard> weatherCardList;
 
 
   private void setupToolbar(ActivityWebServiceBinding binding) {
     // setting toolbar with back button that navigates to the main page.
-    this.toolbar = binding.webServiceToolbar;
+    Toolbar toolbar = binding.webServiceToolbar;
 
-    this.toolbar.setTitle("Web Service - Weather");
-    this.toolbar.setTitleTextColor(Color.WHITE);
+    toolbar.setTitle("Web Service - Weather");
+    toolbar.setTitleTextColor(Color.WHITE);
 
     setSupportActionBar(toolbar);
     getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -139,18 +135,19 @@ public class WebServiceActivity extends AppCompatActivity {
      * using binding instead of 'setContentView(R.layout.[[activity name]])', as it makes accessing
      * the elements of the UI a bit nicer. Check ch 11 of our books to read more on it.
      */
-    binding = ActivityWebServiceBinding.inflate(getLayoutInflater());
+    edu.northeastern.NUMAD_23Su_Group8.databinding.ActivityWebServiceBinding binding = ActivityWebServiceBinding.inflate(
+        getLayoutInflater());
     View view = binding.getRoot();
     setContentView(view);
 
     // instantiating the weatherCardList for the recyclerView
-    this.weatherCardList = new ArrayList<>();
+    List<WeatherCard> weatherCardList = new ArrayList<>();
 
     this.setupToolbar(binding);
     this.setupSearchView(binding);
     this.setupRecyclerView(binding);
 
-    this.weatherRecyclerViewAdapter = new WeatherRecyclerViewAdapter(this.weatherCardList);
+    this.weatherRecyclerViewAdapter = new WeatherRecyclerViewAdapter(weatherCardList);
     this.weatherSearchCityList = OpenWeatherCities.getCityList(this);
     this.weatherSearchAdapter = new WeatherSearchAdapter(this.weatherSearchCityList);
 
@@ -205,7 +202,7 @@ public class WebServiceActivity extends AppCompatActivity {
 
   class OpenWeatherGetCityDataThread extends Thread {
 
-    private String cityName;
+    private final String cityName;
 
     public OpenWeatherGetCityDataThread(String cityName) {
       this.cityName = cityName;
@@ -216,10 +213,10 @@ public class WebServiceActivity extends AppCompatActivity {
       OpenWeatherCity cityWithCoordinates =
           OpenWeatherCities.getCity(WebServiceActivity.this, cityName);
 
-      OpenWeatherCityData cityData = OpenWeatherRequestsHelper.getCityWeather(
-          WebServiceActivity.this, cityWithCoordinates);
+      OpenWeatherCityData cityData = OpenWeatherRequestsHelper.getCityWeather(cityWithCoordinates);
       if (cityData != null) {
-        WeatherCard card = new WeatherCard(cityData.getCityName(), cityData.getTemperature(), cityData.getIcon());
+        WeatherCard card = new WeatherCard(cityData.getCityName(), cityData.getTemperature(),
+            cityData.getIcon());
 
         WebServiceActivity.this.handler.post(
             () -> WebServiceActivity.this.weatherRecyclerViewAdapter.addCard(card));

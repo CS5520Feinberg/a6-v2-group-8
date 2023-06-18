@@ -145,7 +145,8 @@ public class WeatherForecastDetailsActivity extends AppCompatActivity {
                 + " m/s");
 
         int iconResource = OpenWeatherIconHelper.getWeatherIconImageResource(this, weatherIcon);
-        Drawable iconDrawable = ResourcesCompat.getDrawable(getResources(), iconResource, getTheme());
+        Drawable iconDrawable = ResourcesCompat.getDrawable(getResources(), iconResource,
+            getTheme());
         icon.setImageDrawable(iconDrawable);
 
         break;

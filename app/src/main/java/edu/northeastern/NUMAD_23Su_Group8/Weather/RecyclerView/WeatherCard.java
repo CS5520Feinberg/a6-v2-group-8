@@ -6,9 +6,9 @@ package edu.northeastern.NUMAD_23Su_Group8.Weather.RecyclerView;
  */
 public class WeatherCard {
 
-  private String locationName;
-  private String temperature;
-  private String icon;
+  private final String locationName;
+  private final String temperature;
+  private final String icon;
 
   /**
    * Five argument constructor for WeatherCard. Will set the locationName, country, state for the
@@ -28,23 +28,11 @@ public class WeatherCard {
     return locationName;
   }
 
-  public void setLocationName(String locationName) {
-    this.locationName = locationName;
-  }
-
   public String getTemperature() {
     return temperature;
   }
 
-  public void setTemperature(String temperature) {
-    this.temperature = temperature;
-  }
-
   public String getIcon() {
     return icon;
-  }
-
-  public void setIcon(String icon) {
-    this.icon = icon;
   }
 }

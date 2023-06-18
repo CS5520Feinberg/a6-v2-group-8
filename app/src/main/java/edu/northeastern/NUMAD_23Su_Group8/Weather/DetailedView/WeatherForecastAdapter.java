@@ -42,7 +42,7 @@ public class WeatherForecastAdapter extends ArrayAdapter<WeatherForecastCard> {
     TextView weatherDescriptionTextView = itemView.findViewById(R.id.weather_description2);
     ImageView weatherImageView = itemView.findViewById(R.id.weatherIcon);
 
-    temperatureTextView.setText(card.getTemp());
+    temperatureTextView.setText(card.getTemperature());
     dayDateTextView.setText(card.getCurrentDate());
     weatherDescriptionTextView.setText(card.getWeatherDescription());
 
@@ -52,30 +52,4 @@ public class WeatherForecastAdapter extends ArrayAdapter<WeatherForecastCard> {
 
     return itemView;
   }
-
-  //    public WeatherForecastAdapter(List<WeatherForecastCard> forecastList, Context context) {
-//        super(context, 0);
-//        this.forecastList = forecastList;
-//        this.context = context;
-//    }
-
-//    @NonNull
-//    @Override
-//    public WeatherForecastViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-//        return new WeatherForecastViewHolder(LayoutInflater.from(context)
-//                .inflate(R.layout.weather_forecast_card, null));
-//    }
-//
-//    @Override
-//    public void onBindViewHolder(@NonNull WeatherForecastViewHolder holder, int position) {
-//        holder.temp.setText(forecastList.get(position).getTemp());
-//        holder.weather.setText(forecastList.get(position).getWeather());
-//        holder.date.setText(forecastList.get(position).getCurrentDate());
-//        holder.weatherDesc.setText(forecastList.get(position).getWeatherDescription());
-//    }
-//
-//    @Override
-//    public int getItemCount() {
-//        return forecastList.size();
-//    }
 }

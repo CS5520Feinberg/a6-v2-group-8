@@ -15,15 +15,20 @@ import org.json.JSONObject;
 
 public class OpenWeatherRequestsHelper {
 
-  private final static String baseURL = "https://api.openweathermap.org/data/2.5/";
+  /**
+   * API Endpoint URI for getting latitude, longitude, state and country for city.
+   */
   private final static String REVERSE_URL = "https://api.openweathermap.org/geo/1.0/reverse?";
   /**
    * API Endpoint URI for current day weather.
    */
   private final static String WEATHER_URL = "https://api.openweathermap.org/data/2.5/weather?";
+  /**
+   * API Key for OpenWeather API - fetched dynamically and securely from BuildConfig.
+   */
   private final static String API_KEY = BuildConfig.OPEN_WEATHER_API_KEY;
 
-  public static OpenWeatherCityData getCityWeather(Context context, OpenWeatherCity city) {
+  public static OpenWeatherCityData getCityWeather(OpenWeatherCity city) {
     try {
 
       String urlString = String.format(WEATHER_URL + "lat=%s&lon=%s&appid=%s", city.getLatitude(),
@@ -31,11 +36,9 @@ public class OpenWeatherRequestsHelper {
       URL url = new URL(urlString);
       String resp = httpResponse(url);
 
+      // NOTE: There are many more fields in this response, but we are taking only what we need
+
       JSONObject resultJSON = new JSONObject(resp);
-//
-//      JSONObject coordinatesJSON = resultJSON.getJSONObject("coord");
-//      String latitude = coordinatesJSON.getString("lat");
-//      String longitude = coordinatesJSON.getString("lon");
 
       String name = resultJSON.getString("name");
 
@@ -43,32 +46,9 @@ public class OpenWeatherRequestsHelper {
       JSONObject weatherJSON = weatherJSONArray.getJSONObject(0);
 
       String icon = weatherJSON.getString("icon");
-//
-//      String base = resultJSON.getString("base");
 
       JSONObject mainJSON = resultJSON.getJSONObject("main");
       String temperature = mainJSON.getString("temp");
-//      String feels_like = mainJSON.getString("feels_like");
-//      String temp_min = mainJSON.getString("temp_min");
-//      String temp_max = mainJSON.getString("temp_max");
-//      String pressure = mainJSON.getString("pressure");
-//      String humidity = mainJSON.getString("humidity");
-//      String sea_level = mainJSON.getString("sea_level");
-//      String ground_level = mainJSON.getString("grnd_level");
-//
-//      Integer visibility = resultJSON.getInt("visibility");
-//
-//      JSONObject windJSON = resultJSON.getJSONObject("wind");
-//      Double speed = windJSON.getDouble("speed");
-//      String deg = windJSON.getString("deg");
-//      String gust = windJSON.getString("gust");
-//
-//      JSONObject cloudsJSON = resultJSON.getJSONObject("clouds");
-//      String clouds_all = cloudsJSON.getString("all");
-//
-//      String date = resultJSON.getString("dt");
-//
-//      String timezone = resultJSON.getString("timezone");
 
       return new OpenWeatherCityData(name, temperature, icon);
 
