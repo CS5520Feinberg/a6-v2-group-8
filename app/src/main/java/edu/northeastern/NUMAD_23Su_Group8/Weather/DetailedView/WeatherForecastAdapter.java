@@ -17,6 +17,9 @@ import edu.northeastern.NUMAD_23Su_Group8.OpenWeatherAPI.OpenWeatherIconHelper;
 import edu.northeastern.NUMAD_23Su_Group8.R;
 import java.util.List;
 
+/**
+ * Adapter for the Weather forecast list to be displayed in the activity.
+ */
 public class WeatherForecastAdapter extends ArrayAdapter<WeatherForecastCard> {
 
   private final List<WeatherForecastCard> forecastList;

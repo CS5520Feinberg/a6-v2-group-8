@@ -3,6 +3,9 @@ package edu.northeastern.NUMAD_23Su_Group8.Weather.DetailedView;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+/**
+ * Class for weatherforecast card data
+ */
 public class WeatherForecastCard implements Parcelable {
 
   private final String temperature;

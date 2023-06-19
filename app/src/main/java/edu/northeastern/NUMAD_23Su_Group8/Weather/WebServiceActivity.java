@@ -80,7 +80,7 @@ public class WebServiceActivity extends AppCompatActivity {
       public boolean onQueryTextSubmit(String query) {
         List<String> matchingCitiesList = new ArrayList<>();
         for (String city : WebServiceActivity.this.weatherSearchCityList) {
-          if (city.toLowerCase().contains(query.toLowerCase())) {
+          if (city.toLowerCase().trim().contains(query.toLowerCase().trim())) {
             matchingCitiesList.add(city);
           }
         }

@@ -17,26 +17,19 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.res.ResourcesCompat;
 import edu.northeastern.NUMAD_23Su_Group8.OpenWeatherAPI.OpenWeatherIconHelper;
 import edu.northeastern.NUMAD_23Su_Group8.R;
-import edu.northeastern.NUMAD_23Su_Group8.Weather.RecyclerView.WeatherRecyclerViewAdapter;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.ProtocolException;
-import java.net.URL;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * Activity to view and manage the weather details for the city. Displays current weather and next 10 days forecast.
+ */
 public class WeatherForecastDetailsActivity extends AppCompatActivity {
 
   ListView forecastListView;
@@ -44,12 +37,14 @@ public class WeatherForecastDetailsActivity extends AppCompatActivity {
   List<WeatherForecastCard> forecastList = new ArrayList<>();
   String baseURL = "https://api.openweathermap.org/data/2.5/";
 
+  /**
+   * For getting the forecast data for the next  30 days.
+   */
   String proURL = "https://pro.openweathermap.org/data/2.5/forecast/climate";
   private final Handler handler = new Handler();
   private ProgressBar progressBar;
 
   private WeatherForecastAdapter adapter;
-  private WeatherRecyclerViewAdapter weatherRecyclerViewAdapter;
 
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -68,6 +63,12 @@ public class WeatherForecastDetailsActivity extends AppCompatActivity {
     }
   }
 
+  /**
+   * Gets weather data for the city.
+   *
+   * @param la latitude
+   * @param lo longitude
+   */
   private void getData(String la, String lo) {
     String lat = la;
     String lon = lo;
@@ -76,8 +77,8 @@ public class WeatherForecastDetailsActivity extends AppCompatActivity {
           + OPEN_WEATHER_API_KEY;
       String forecastURL = proURL + "?lat=" + lat + "&lon=" + lon + "&units=metric&appid="
           + OPEN_WEATHER_API_KEY;
-      HTTPcall weatherTask = new HTTPcall(new String[]{currentURL, "weatherTask"});
-      HTTPcall forecastTask = new HTTPcall(new String[]{forecastURL, "forecastTask"});
+      HTTPConnectionThread weatherTask = new HTTPConnectionThread(new String[]{currentURL, "weatherTask"});
+      HTTPConnectionThread forecastTask = new HTTPConnectionThread(new String[]{forecastURL, "forecastTask"});
       weatherTask.start();
       forecastTask.start();
     } catch (Exception e) {
@@ -85,6 +86,9 @@ public class WeatherForecastDetailsActivity extends AppCompatActivity {
     }
   }
 
+  /**
+   * To handle the forecast details list view.
+   */
   public void createListView() {
     forecastListView = findViewById(R.id.forecastList);
     adapter = new WeatherForecastAdapter(this, forecastList);
@@ -97,6 +101,15 @@ public class WeatherForecastDetailsActivity extends AppCompatActivity {
     outState.putParcelableArrayList(FORECAST_LIST_KEY, new ArrayList<>(forecastList));
   }
 
+  /**
+   * Parse and format the response from the OpenweatherAPI to be displayed in the activity. There are 2 tasks.
+   *  WeatherTask: To handle current weather data
+   *  ForecastTask: To handle the forecast data.
+   *  The API returns forecast for 30 days,but the data is displayed only for the next 10 days.
+   *
+   * @param data response data fro the APIs
+   * @throws JSONException to handle JSON parse errors
+   */
   private void parseData(String[] data) throws JSONException {
     switch (data[1]) {
       case "forecastTask":
@@ -163,10 +176,14 @@ public class WeatherForecastDetailsActivity extends AppCompatActivity {
     }
   }
 
-  private class HTTPcall extends Thread {
+  /**
+   * To handle the API calls for the activity in a separate thread. Each network call will be handled in
+   * its own thread. Once the response is available, it is passed to parseData() function to format the data.
+   */
+  private class HTTPConnectionThread extends Thread {
     String[] params;
 
-    public HTTPcall(String[] params) {
+    public HTTPConnectionThread(String[] params) {
       this.params = params;
     }
 

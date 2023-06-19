@@ -20,6 +20,8 @@ public class WeatherCard {
    * @param locationName the name of the city.
    * @param temperature  the current temperature in the city.
    * @param icon         the icon for the weather in the city.
+   * @param lat the latitude of the city.
+   * @param lon the longitude of the city
    */
   public WeatherCard(String locationName, String temperature, String icon, String lat, String lon) {
     this.locationName = locationName;

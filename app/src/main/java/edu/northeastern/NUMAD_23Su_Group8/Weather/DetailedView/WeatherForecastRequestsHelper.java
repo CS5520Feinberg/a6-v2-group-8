@@ -12,7 +12,10 @@ import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
 
-
+/**
+ * Handles API calls for the weather details activity. Opens a HTTP connection, processes response and returns
+ * result as string array with response and the name of the task .
+ */
 public class WeatherForecastRequestsHelper {
     public static String[] getResponse(String[] params) {
         String result = "";
@@ -21,7 +24,6 @@ public class WeatherForecastRequestsHelper {
             HttpURLConnection urlConnection = null;
             try {
                 url = new URL(params[0]);
-                //open a URL coonnection
                 urlConnection = (HttpURLConnection) url.openConnection();
                 urlConnection.setRequestMethod("GET");
                 urlConnection.setDoInput(true);
@@ -34,7 +36,6 @@ public class WeatherForecastRequestsHelper {
                     result += (char) data;
                     data = isw.read();
                 }
-                // return the data to onPostExecute method
                 return new String[]{result,params[1]};
 
             } catch (MalformedURLException e) {
