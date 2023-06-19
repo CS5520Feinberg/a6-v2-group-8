@@ -8,9 +8,12 @@ import android.app.ProgressDialog;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,6 +22,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.res.ResourcesCompat;
 import edu.northeastern.NUMAD_23Su_Group8.OpenWeatherAPI.OpenWeatherIconHelper;
 import edu.northeastern.NUMAD_23Su_Group8.R;
+import edu.northeastern.NUMAD_23Su_Group8.Weather.RecyclerView.WeatherCard;
+import edu.northeastern.NUMAD_23Su_Group8.Weather.RecyclerView.WeatherRecyclerViewAdapter;
+import edu.northeastern.NUMAD_23Su_Group8.Weather.WebServiceActivity;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -45,16 +52,20 @@ public class WeatherForecastDetailsActivity extends AppCompatActivity {
   String baseURL = "https://api.openweathermap.org/data/2.5/";
 
   String proURL = "https://pro.openweathermap.org/data/2.5/forecast/climate";
+  private final Handler handler = new Handler();
+  private ProgressBar progressBar;
 
   private WeatherForecastAdapter adapter;
+  private WeatherRecyclerViewAdapter weatherRecyclerViewAdapter;
 
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_weather_details);
     String lat = getIntent().getStringExtra("lat");
     String lon = getIntent().getStringExtra("lon");
-//    getCoordinates(city);
     getData(lat,lon);
+    progressBar = findViewById(R.id.progressBar);
+
     if (savedInstanceState != null) {
       ArrayList<WeatherForecastCard> savedDataList = savedInstanceState.getParcelableArrayList(
           FORECAST_LIST_KEY);
@@ -67,15 +78,15 @@ public class WeatherForecastDetailsActivity extends AppCompatActivity {
   private void getData(String la, String lo) {
     String lat = la;
     String lon = lo;
-    HTTPcall weatherTask = new HTTPcall();
-    HTTPcall forecastTask = new HTTPcall();
     try {
       String currentURL = baseURL + "weather?lat=" + lat + "&lon=" + lon + "&units=metric&appid="
           + OPEN_WEATHER_API_KEY;
       String forecastURL = proURL + "?lat=" + lat + "&lon=" + lon + "&units=metric&appid="
           + OPEN_WEATHER_API_KEY;
-      weatherTask.execute(currentURL, "weatherTask");
-      forecastTask.execute(forecastURL, "forecastTask");
+      HTTPcall weatherTask = new HTTPcall(new String[]{currentURL, "weatherTask"});
+      HTTPcall forecastTask = new HTTPcall(new String[]{forecastURL, "forecastTask"});
+      weatherTask.start();
+      forecastTask.start();
     } catch (Exception e) {
       Toast.makeText(getApplication(), e.toString(), Toast.LENGTH_SHORT).show();
     }
@@ -112,6 +123,7 @@ public class WeatherForecastDetailsActivity extends AppCompatActivity {
               new WeatherForecastCard(temp, obj.format(cur), weather, weatherDesc, weatherIcon));
         }
         createListView();
+        progressBar.setVisibility(View.INVISIBLE);
         break;
 
       case "weatherTask":
@@ -129,6 +141,7 @@ public class WeatherForecastDetailsActivity extends AppCompatActivity {
         TextView temp = (TextView) findViewById(R.id.temp2);
         TextView wind = (TextView) findViewById(R.id.wind);
         ImageView icon = findViewById(R.id.weather_icon2);
+//        TextView sunRise = (TextView)
 
         city.setText((CharSequence) jsonObject2.get("name"));
         date.setText((CharSequence) obj2.format(cur));
@@ -143,72 +156,41 @@ public class WeatherForecastDetailsActivity extends AppCompatActivity {
         Drawable iconDrawable = ResourcesCompat.getDrawable(getResources(), iconResource,
             getTheme());
         icon.setImageDrawable(iconDrawable);
-
         break;
       default:
         break;
     }
   }
 
-  private class HTTPcall extends AsyncTask<String, String, String[]> {
+  private class HTTPcall extends Thread {
+    String[] params;
 
-    ProgressDialog progressDialog = new ProgressDialog(WeatherForecastDetailsActivity.this);
-
-    @Override
-    protected void onPreExecute() {
-      Log.i(TAG, "Making progress...");
-      progressDialog.setMessage("processing results");
-      progressDialog.setCancelable(false);
-      progressDialog.show();
+    public HTTPcall(String[] params) {
+      this.params = params;
     }
 
     @Override
-    protected String[] doInBackground(String... params) {
-      String result = "";
-      try {
-        URL url;
-        HttpURLConnection urlConnection = null;
-        try {
-          url = new URL(params[0]);
-          //open a URL coonnection
-          urlConnection = (HttpURLConnection) url.openConnection();
-          urlConnection.setRequestMethod("GET");
-          urlConnection.setDoInput(true);
-
-          urlConnection.connect();
-          InputStream in = urlConnection.getInputStream();
-          InputStreamReader isw = new InputStreamReader(in);
-          int data = isw.read();
-          while (data != -1) {
-            result += (char) data;
-            data = isw.read();
-          }
-          // return the data to onPostExecute method
-          return new String[]{result, params[1]};
-
-        } catch (MalformedURLException e) {
-          Log.e(TAG, "MalformedURLException");
-          e.printStackTrace();
-        } catch (ProtocolException e) {
-          Log.e(TAG, "ProtocolException");
-          e.printStackTrace();
-        } catch (IOException e) {
-          Log.e(TAG, "IOException");
-          e.printStackTrace();
+    public void run() {
+      runOnUiThread(new Runnable() {
+        @Override
+        public void run() {
+          progressBar.setVisibility(View.VISIBLE);
         }
-      } catch (Exception e) {
-        throw new RuntimeException(e);
-      }
-      return new String[]{};
-    }
-
-    @Override
-    protected void onPostExecute(String s[]) {
-      progressDialog.dismiss();
-      try {
-        parseData(s);
-      } catch (JSONException e) {
-        e.printStackTrace();
+      });
+      String[] result = WeatherForecastRequestsHelper.getResponse(this.params);
+      if (result != null) {
+        WeatherForecastDetailsActivity.this.handler.post(
+                () -> {
+                  try {
+                    WeatherForecastDetailsActivity.this.parseData(result);
+                  } catch (JSONException e) {
+                    throw new RuntimeException(e);
+                  }
+                });
+      } else {
+        WeatherForecastDetailsActivity.this.handler.post(() -> Toast.makeText(WeatherForecastDetailsActivity.this,
+                        "Error occurred while retrieving data from API!", Toast.LENGTH_LONG)
+                .show());
       }
     }
   }
