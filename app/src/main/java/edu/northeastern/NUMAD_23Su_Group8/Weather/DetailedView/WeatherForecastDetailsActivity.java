@@ -48,9 +48,10 @@ public class WeatherForecastDetailsActivity extends AppCompatActivity {
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_weather_details);
-    String city = getIntent().getStringExtra("city");
-    getCoordinates(city);
-//        getData("42.3554334","-71.060511");
+    String lat = getIntent().getStringExtra("lat");
+    String lon = getIntent().getStringExtra("lon");
+//    getCoordinates(city);
+    getData(lat,lon);
     if (savedInstanceState != null) {
       ArrayList<WeatherForecastCard> savedDataList = savedInstanceState.getParcelableArrayList(
           FORECAST_LIST_KEY);
@@ -58,13 +59,6 @@ public class WeatherForecastDetailsActivity extends AppCompatActivity {
         forecastList.addAll(savedDataList);
       }
     }
-  }
-
-  private void getCoordinates(String city) {
-    HTTPcall coordinatesTask = new HTTPcall();
-    String URL = "https://api.openweathermap.org/geo/1.0/direct?q=" + city + "&limit=1&appid="
-        + OPEN_WEATHER_API_KEY;
-    coordinatesTask.execute(URL, "coordinatesTask");
   }
 
   private void getData(String la, String lo) {
@@ -149,11 +143,6 @@ public class WeatherForecastDetailsActivity extends AppCompatActivity {
             getTheme());
         icon.setImageDrawable(iconDrawable);
 
-        break;
-      case "coordinatesTask":
-        JSONArray ar = new JSONArray(data[0]);
-        JSONObject jsonObject3 = ar.getJSONObject(0);
-        getData(jsonObject3.get("lat").toString(), jsonObject3.get("lon").toString());
         break;
       default:
         break;

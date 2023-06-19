@@ -118,9 +118,10 @@ public class WebServiceActivity extends AppCompatActivity {
     // set up a listener for city card click
     CardClickListener cardClickListener = new CardClickListener() {
       @Override
-      public void onSeeMoreClick(String city) {
+      public void onSeeMoreClick(String lat, String lon) {
         Intent intent = new Intent(WebServiceActivity.this, WeatherForecastDetailsActivity.class);
-        intent.putExtra("city", city);
+        intent.putExtra("lat", lat);
+        intent.putExtra("lon", lon);
         startActivity(intent);
       }
     };
@@ -218,7 +219,7 @@ public class WebServiceActivity extends AppCompatActivity {
       OpenWeatherCityData cityData = OpenWeatherRequestsHelper.getCityWeather(cityWithCoordinates);
       if (cityData != null) {
         WeatherCard card = new WeatherCard(cityData.getCityName(), cityData.getTemperature(),
-            cityData.getIcon());
+            cityData.getIcon(), cityData.getLatitude(), cityData.getLongitude());
 
         WebServiceActivity.this.handler.post(
             () -> WebServiceActivity.this.weatherRecyclerViewAdapter.addCard(card));

@@ -58,7 +58,7 @@ public class WeatherRecyclerViewAdapter extends RecyclerView.Adapter<WeatherView
     holder.getMoreDetails().setOnClickListener(v -> {
       int currentPosition = holder.getAdapterPosition();
       if (currentPosition != RecyclerView.NO_POSITION) {
-        listener.onSeeMoreClick(weatherCardList.get(position).getLocationName());
+        listener.onSeeMoreClick(weatherCardList.get(position).getLatitude(), weatherCardList.get(position).getLongitude());
       }
     });
   }
