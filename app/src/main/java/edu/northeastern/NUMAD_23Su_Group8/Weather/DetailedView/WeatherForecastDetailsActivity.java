@@ -1,15 +1,10 @@
 package edu.northeastern.NUMAD_23Su_Group8.Weather.DetailedView;
 
-import static android.content.ContentValues.TAG;
-
 import static edu.northeastern.NUMAD_23Su_Group8.BuildConfig.OPEN_WEATHER_API_KEY;
 
-import android.app.ProgressDialog;
 import android.graphics.drawable.Drawable;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -22,9 +17,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.res.ResourcesCompat;
 import edu.northeastern.NUMAD_23Su_Group8.OpenWeatherAPI.OpenWeatherIconHelper;
 import edu.northeastern.NUMAD_23Su_Group8.R;
-import edu.northeastern.NUMAD_23Su_Group8.Weather.RecyclerView.WeatherCard;
 import edu.northeastern.NUMAD_23Su_Group8.Weather.RecyclerView.WeatherRecyclerViewAdapter;
-import edu.northeastern.NUMAD_23Su_Group8.Weather.WebServiceActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -129,6 +122,7 @@ public class WeatherForecastDetailsActivity extends AppCompatActivity {
       case "weatherTask":
         JSONObject jsonObject2 = new JSONObject(data[0]);
         DateFormat obj2 = new SimpleDateFormat("E, dd MMM");
+        DateFormat time = new SimpleDateFormat("hh:mm aaa");
         Long dat = Long.parseLong(jsonObject2.get("dt").toString());
         Date cur = new Date(dat*1000);
         JSONObject weatherDetails = jsonObject2.getJSONArray("weather").getJSONObject(0);
@@ -141,10 +135,17 @@ public class WeatherForecastDetailsActivity extends AppCompatActivity {
         TextView temp = (TextView) findViewById(R.id.temp2);
         TextView wind = (TextView) findViewById(R.id.wind);
         ImageView icon = findViewById(R.id.weather_icon2);
-//        TextView sunRise = (TextView)
+        TextView sunRise = (TextView) findViewById(R.id.sunRise);
+        Long sunRiseLong = Long.parseLong(jsonObject2.getJSONObject("sys").get("sunrise").toString());
+        Date sunRiseTime = new Date(sunRiseLong*1000);
+        TextView sunSet = (TextView) findViewById(R.id.sunSet);
+        Long sunSetLong = Long.parseLong(jsonObject2.getJSONObject("sys").get("sunset").toString());
+        Date sunSetTime = new Date(sunSetLong*1000);
 
         city.setText((CharSequence) jsonObject2.get("name"));
         date.setText((CharSequence) obj2.format(cur));
+        sunRise.setText((CharSequence)"Sunrise: "+  time.format(sunRiseTime));
+        sunSet.setText((CharSequence) "Sunset: "+ time.format(sunSetTime));
         weatherDesc.setText((CharSequence) weatherDetails.getString("description"));
         temp.setText(
             (CharSequence) jsonObject2.getJSONObject("main").get("temp").toString() + " ℃");
