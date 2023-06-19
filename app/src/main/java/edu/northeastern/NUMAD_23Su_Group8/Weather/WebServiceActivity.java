@@ -7,6 +7,7 @@ import android.os.Handler;
 import android.os.Parcelable;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,6 +19,7 @@ import edu.northeastern.NUMAD_23Su_Group8.OpenWeatherAPI.OpenWeatherCities;
 import edu.northeastern.NUMAD_23Su_Group8.OpenWeatherAPI.OpenWeatherCity;
 import edu.northeastern.NUMAD_23Su_Group8.OpenWeatherAPI.OpenWeatherCityData;
 import edu.northeastern.NUMAD_23Su_Group8.OpenWeatherAPI.OpenWeatherRequestsHelper;
+import edu.northeastern.NUMAD_23Su_Group8.R;
 import edu.northeastern.NUMAD_23Su_Group8.Weather.DetailedView.WeatherForecastDetailsActivity;
 import edu.northeastern.NUMAD_23Su_Group8.Weather.RecyclerView.CardClickListener;
 import edu.northeastern.NUMAD_23Su_Group8.Weather.RecyclerView.WeatherCard;
@@ -37,6 +39,7 @@ public class WebServiceActivity extends AppCompatActivity {
 
   private RecyclerView weatherRecyclerView;
   private WeatherRecyclerViewAdapter weatherRecyclerViewAdapter;
+  private ProgressBar progressBar;
 
 
   private void setupToolbar(ActivityWebServiceBinding binding) {
@@ -143,6 +146,8 @@ public class WebServiceActivity extends AppCompatActivity {
     View view = binding.getRoot();
     setContentView(view);
 
+    progressBar = findViewById(R.id.cityListProgressBar);
+
     // instantiating the weatherCardList for the recyclerView
     List<WeatherCard> weatherCardList = new ArrayList<>();
 
@@ -158,6 +163,7 @@ public class WebServiceActivity extends AppCompatActivity {
     this.setupSearchViewListener();
 
     this.setupRecyclerViewListenerAndAdapter();
+    this.addCityToRecyclerView("Boston");
   }
 
   /**
@@ -213,10 +219,17 @@ public class WebServiceActivity extends AppCompatActivity {
 
     @Override
     public void run() {
+      runOnUiThread(new Runnable() {
+        @Override
+        public void run() {
+          progressBar.setVisibility(View.VISIBLE);
+        }
+      });
       OpenWeatherCity cityWithCoordinates =
           OpenWeatherCities.getCity(WebServiceActivity.this, cityName);
 
       OpenWeatherCityData cityData = OpenWeatherRequestsHelper.getCityWeather(cityWithCoordinates);
+      progressBar.setVisibility(View.INVISIBLE);
       if (cityData != null) {
         WeatherCard card = new WeatherCard(cityData.getCityName(), cityData.getTemperature(),
             cityData.getIcon(), cityData.getLatitude(), cityData.getLongitude());
