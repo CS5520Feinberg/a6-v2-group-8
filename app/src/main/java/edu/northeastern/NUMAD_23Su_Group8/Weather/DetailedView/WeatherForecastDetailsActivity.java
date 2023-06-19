@@ -23,6 +23,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -42,6 +43,8 @@ public class WeatherForecastDetailsActivity extends AppCompatActivity {
   private static final String FORECAST_LIST_KEY = "forecast_list";
   List<WeatherForecastCard> forecastList = new ArrayList<>();
   String baseURL = "https://api.openweathermap.org/data/2.5/";
+
+  String proURL = "https://pro.openweathermap.org/data/2.5/forecast/climate";
 
   private WeatherForecastAdapter adapter;
 
@@ -69,7 +72,7 @@ public class WeatherForecastDetailsActivity extends AppCompatActivity {
     try {
       String currentURL = baseURL + "weather?lat=" + lat + "&lon=" + lon + "&units=metric&appid="
           + OPEN_WEATHER_API_KEY;
-      String forecastURL = baseURL + "forecast?lat=" + lat + "&lon=" + lon + "&units=metric&appid="
+      String forecastURL = proURL + "?lat=" + lat + "&lon=" + lon + "&units=metric&appid="
           + OPEN_WEATHER_API_KEY;
       weatherTask.execute(currentURL, "weatherTask");
       forecastTask.execute(forecastURL, "forecastTask");
@@ -96,11 +99,11 @@ public class WeatherForecastDetailsActivity extends AppCompatActivity {
         JSONObject jsonObject = new JSONObject(data[0]);
         DateFormat obj = new SimpleDateFormat("E, dd MMM");
         JSONArray jsonArray1 = jsonObject.getJSONArray("list");
-        for (int i = 0; i < jsonArray1.length(); i++) {
+        for (int i = 0; i < 10; i++) {
           JSONObject day = jsonArray1.getJSONObject(i);
-          String temp = day.getJSONObject("main").get("temp") + " ℃";
-          Integer dat = (Integer) day.get("dt");
-          Date cur = new Date(new Long(dat));
+          String temp = day.getJSONObject("temp").get("day") + " ℃";
+          Long dat = Long.parseLong(day.get("dt").toString());
+          Date cur = new Date(dat*1000);
           JSONObject weatherDetails = day.getJSONArray("weather").getJSONObject(0);
           String weather = weatherDetails.getString("main");
           String weatherDesc = weatherDetails.getString("description");
@@ -114,12 +117,10 @@ public class WeatherForecastDetailsActivity extends AppCompatActivity {
       case "weatherTask":
         JSONObject jsonObject2 = new JSONObject(data[0]);
         DateFormat obj2 = new SimpleDateFormat("E, dd MMM");
-//                String temp = jsonObject2.getJSONObject("main").get("temp").toString() + "℃";
-        Integer dat = (Integer) jsonObject2.get("dt");
-        Date cur = new Date(new Long(dat));
+        Long dat = Long.parseLong(jsonObject2.get("dt").toString());
+        Date cur = new Date(dat*1000);
         JSONObject weatherDetails = jsonObject2.getJSONArray("weather").getJSONObject(0);
         String weather = weatherDetails.getString("main");
-//                String weatherDesc = weatherDetails.getString("description");
         String weatherIcon = weatherDetails.getString("icon");
 
         TextView city = (TextView) findViewById(R.id.city_in_card);
@@ -171,6 +172,10 @@ public class WeatherForecastDetailsActivity extends AppCompatActivity {
           url = new URL(params[0]);
           //open a URL coonnection
           urlConnection = (HttpURLConnection) url.openConnection();
+          urlConnection.setRequestMethod("GET");
+          urlConnection.setDoInput(true);
+
+          urlConnection.connect();
           InputStream in = urlConnection.getInputStream();
           InputStreamReader isw = new InputStreamReader(in);
           int data = isw.read();
