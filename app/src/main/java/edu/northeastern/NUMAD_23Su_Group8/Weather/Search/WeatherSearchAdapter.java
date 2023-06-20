@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class WeatherSearchAdapter extends RecyclerView.Adapter<WeatherSearchViewHolder> implements Filterable {
+public class WeatherSearchAdapter extends RecyclerView.Adapter<WeatherSearchViewHolder>  implements Filterable {
 
   private List<String> citiesList;
   private List<String> citiesFilteredList;
@@ -20,6 +20,7 @@ public class WeatherSearchAdapter extends RecyclerView.Adapter<WeatherSearchView
   public WeatherSearchAdapter(List<String> citiesListParam) {
     this.citiesList = citiesListParam;
     this.citiesFilteredList = citiesListParam;
+    this.citiesFilteredList = new ArrayList<>(citiesListParam);
   }
 
   @NonNull
@@ -62,6 +63,7 @@ public class WeatherSearchAdapter extends RecyclerView.Adapter<WeatherSearchView
       }
 
       results.values = filteredList;
+      results.count = filteredList.size();
 
       return results;
     }
@@ -69,7 +71,7 @@ public class WeatherSearchAdapter extends RecyclerView.Adapter<WeatherSearchView
     @SuppressLint("NotifyDataSetChanged")
     @Override
     protected void publishResults(CharSequence constraint, FilterResults results) {
-      WeatherSearchAdapter.this.citiesFilteredList = (List<String>) results.values;
+      citiesFilteredList = (List<String>) results.values;
       notifyDataSetChanged();
     }
   }

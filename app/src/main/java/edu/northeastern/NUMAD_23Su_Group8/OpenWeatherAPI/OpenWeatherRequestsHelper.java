@@ -40,6 +40,7 @@ public class OpenWeatherRequestsHelper {
 
       JSONObject resultJSON = new JSONObject(resp);
 
+
       String name = resultJSON.getString("name");
 
       JSONArray weatherJSONArray = resultJSON.getJSONArray("weather");
@@ -49,7 +50,7 @@ public class OpenWeatherRequestsHelper {
 
       JSONObject mainJSON = resultJSON.getJSONObject("main");
       String temperature = mainJSON.getString("temp");
-
+      System.out.println(resultJSON);
       return new OpenWeatherCityData(name, temperature, icon, city.getLatitude(), city.getLongitude());
 
     } catch (JSONException | IOException e) {

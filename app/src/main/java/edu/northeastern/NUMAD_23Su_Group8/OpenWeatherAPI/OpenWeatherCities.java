@@ -24,7 +24,7 @@ public class OpenWeatherCities {
     try {
 
       // opening the JSON file to read data from it.
-      InputStream is = context.getAssets().open("cities_with_coordinates_mini.json");
+      InputStream is = context.getAssets().open("cities_with_coordinates.json");
       int size = is.available();
       byte[] buffer = new byte[size];
 

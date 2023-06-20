@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Parcelable;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -24,6 +25,7 @@ import edu.northeastern.NUMAD_23Su_Group8.Weather.DetailedView.WeatherForecastDe
 import edu.northeastern.NUMAD_23Su_Group8.Weather.RecyclerView.CardClickListener;
 import edu.northeastern.NUMAD_23Su_Group8.Weather.RecyclerView.WeatherCard;
 import edu.northeastern.NUMAD_23Su_Group8.Weather.RecyclerView.WeatherRecyclerViewAdapter;
+import edu.northeastern.NUMAD_23Su_Group8.Weather.Search.SearchSuggestions;
 import edu.northeastern.NUMAD_23Su_Group8.Weather.Search.WeatherSearchAdapter;
 import edu.northeastern.NUMAD_23Su_Group8.databinding.ActivityWebServiceBinding;
 import java.util.ArrayList;
@@ -34,13 +36,12 @@ public class WebServiceActivity extends AppCompatActivity {
   private final Handler handler = new Handler();
 
   private SearchView weatherSearchView;
+  private static final int REQUEST_CITY = 1;
   private WeatherSearchAdapter weatherSearchAdapter;
   private List<String> weatherSearchCityList;
-
   private RecyclerView weatherRecyclerView;
   private WeatherRecyclerViewAdapter weatherRecyclerViewAdapter;
   private ProgressBar progressBar;
-
 
   private void setupToolbar(ActivityWebServiceBinding binding) {
     // setting toolbar with back button that navigates to the main page.
@@ -54,7 +55,7 @@ public class WebServiceActivity extends AppCompatActivity {
   }
 
   private void setupSearchView(ActivityWebServiceBinding binding) {
-    // expanding search bar so tap takes up entire area of the element (not .
+    // expanding search bar so tap takes up entire area of the element.
     this.weatherSearchView = binding.weatherSearchView;
 
     this.weatherSearchView.setIconified(true);
@@ -81,19 +82,19 @@ public class WebServiceActivity extends AppCompatActivity {
     this.weatherSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
       @Override
       public boolean onQueryTextSubmit(String query) {
-        List<String> matchingCitiesList = new ArrayList<>();
-        for (String city : WebServiceActivity.this.weatherSearchCityList) {
-          if (city.toLowerCase().trim().contains(query.toLowerCase().trim())) {
-            matchingCitiesList.add(city);
-          }
-        }
+        List<String> matchingCitiesList = filterCities(query);
 
         if (matchingCitiesList.size() == 1) {
-          WebServiceActivity.this.addCityToRecyclerView(matchingCitiesList.get(0));
-        } else {
+          addCityToRecyclerView(matchingCitiesList.get(0));
+
+        } else if (matchingCitiesList.size() > 1) {
+          Intent intent = new Intent(WebServiceActivity.this, SearchSuggestions.class);
+          intent.putStringArrayListExtra("matchingCities", (ArrayList<String>) matchingCitiesList);
+          startActivityForResult(intent, REQUEST_CITY);
+        } else if (matchingCitiesList.size() == 0) {
           Toast.makeText(WebServiceActivity.this,
-                  matchingCitiesList.size() + " matches found! We need exactly 1!", Toast.LENGTH_LONG)
-              .show();
+                          "No cities found.", Toast.LENGTH_LONG)
+                  .show();
         }
 
         WebServiceActivity.this.weatherSearchView.clearFocus();
@@ -107,6 +108,26 @@ public class WebServiceActivity extends AppCompatActivity {
         return false;
       }
     });
+  }
+
+  @Override
+  protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    super.onActivityResult(requestCode, resultCode, data);
+    if (requestCode == REQUEST_CITY && resultCode == RESULT_OK && data != null) {
+      String selectedCity = data.getStringExtra("selectedCity");
+      addCityToRecyclerView(selectedCity);
+    }
+  }
+
+  private List<String> filterCities(String query) {
+    List<String> matchingCitiesList = new ArrayList<>();
+    for (String city : WebServiceActivity.this.weatherSearchCityList) {
+      if (city.toLowerCase().trim().contains(query.toLowerCase().trim())) {
+        matchingCitiesList.add(city);
+      }
+    }
+
+    return matchingCitiesList;
   }
 
   private void setupRecyclerView(ActivityWebServiceBinding binding) {
