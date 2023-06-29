@@ -1,7 +1,9 @@
 <resources>
   <string name="app_name">A6 - Group 8</string>
-  <string name="txt_team_name">Group 8\nDean Beebe, Prajwal Mathad, Omkar Ubale</string>
+  <string name="txt_team_name">Group 8</string>
+  <string name="txt_team_members">Dean Beebe\nPrajwal Mathad\nOmkar Ubale</string>
   <string name="btn_web_service">Web Service</string>
+  <string name="btn_messaging_service">Messaging Service</string>
   <string name="delete">Delete</string>
   <string name="more_details">More Details</string>
     <string name="title_activity_search_suggestions">SearchSuggestionsActivity</string>

@@ -27,4 +27,26 @@
       app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintTop_toBottomOf="@+id/txt_team_name" />
 
+  <Button
+      android:id="@+id/btn_messaging"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="@string/btn_messaging_service"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@+id/btn_web_service"
+      app:layout_constraintVertical_bias="0.16000003" />
+
+  <Button
+      android:id="@+id/about"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="About"
+      app:layout_constraintBottom_toTopOf="@+id/btn_web_service"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@+id/txt_team_name"
+      app:layout_constraintVertical_bias="0.14999998" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
