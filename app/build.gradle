@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id 'com.google.gms.google-services'
 }
 
 // Create a variable called keystorePropertiesFile, and initialize it to your
@@ -14,7 +15,7 @@ def keystoreProperties = new Properties()
 keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 
 // Setup of OpenWeather API Credentials
-def openWeatherCredentialsPropertiesFile = rootProject.file("openWeather.credentials")
+def openWeatherCredentialsPropertiesFile = rootProject.file("openWeather.properties")
 def openWeatherCredentialsProperties = new Properties()
 openWeatherCredentialsProperties.load(new FileInputStream(openWeatherCredentialsPropertiesFile))
 
@@ -101,4 +102,19 @@ dependencies {
     androidTestImplementation 'androidx.compose.ui:ui-test-junit4'
     debugImplementation 'androidx.compose.ui:ui-tooling'
     debugImplementation 'androidx.compose.ui:ui-test-manifest'
+
+    implementation 'com.google.firebase:firebase-database:19.6.0'
+    implementation 'com.google.firebase:firebase-messaging:21.0.1'
+    // Import the Firebase BoM
+    implementation platform('com.google.firebase:firebase-bom:26.3.0')
+
+    // When using the BoM, you don't specify versions in Firebase library dependencies
+
+    // Declare the dependency for the Firebase SDK for Google Analytics
+    implementation 'com.google.firebase:firebase-analytics'
+
+    // Declare the dependencies for any other desired Firebase products
+    // For example, declare the dependencies for Firebase Authentication and Cloud Firestore
+    implementation 'com.google.firebase:firebase-auth'
+    implementation 'com.google.firebase:firebase-firestore'
 }
