@@ -37,6 +37,9 @@
             android:name=".Messaging.MessagingActivity"
             android:exported="false" />
         <activity
+            android:name=".Messaging.LoginActivity"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>

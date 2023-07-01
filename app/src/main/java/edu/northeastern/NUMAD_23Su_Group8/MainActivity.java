@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.widget.Button;
 import androidx.appcompat.app.AppCompatActivity;
 
+import edu.northeastern.NUMAD_23Su_Group8.Messaging.LoginActivity;
 import edu.northeastern.NUMAD_23Su_Group8.Messaging.MessagingActivity;
 import edu.northeastern.NUMAD_23Su_Group8.Weather.WebServiceActivity;
 
@@ -30,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
     });
 
     messagingBtn.setOnClickListener(v -> {
-      Intent intent = new Intent(MainActivity.this, MessagingActivity.class);
+      Intent intent = new Intent(MainActivity.this, LoginActivity.class);
       MainActivity.this.startActivity(intent);
     });
   }
