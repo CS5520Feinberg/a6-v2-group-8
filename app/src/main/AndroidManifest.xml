@@ -17,16 +17,18 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".Messaging.MessagingChatActivity"
+            android:exported="false" />
+        <activity
             android:name=".AboutUsActivity"
             android:exported="false" />
         <activity
             android:name=".Weather.Search.SearchSuggestions"
-            android:exported="false" />
-<!--        <activity-->
-<!--            android:name=".Weather.Search.SearchSuggestionsActivity"-->
-<!--            android:exported="false"-->
-<!--            android:label="@string/title_activity_search_suggestions"-->
-<!--            android:theme="@style/Theme.A6Group8" />-->
+            android:exported="false" /> <!-- <activity -->
+        <!-- android:name=".Weather.Search.SearchSuggestionsActivity" -->
+        <!-- android:exported="false" -->
+        <!-- android:label="@string/title_activity_search_suggestions" -->
+        <!-- android:theme="@style/Theme.A6Group8" /> -->
         <activity
             android:name=".Weather.WebServiceActivity"
             android:exported="false" />

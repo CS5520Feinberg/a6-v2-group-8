@@ -55,6 +55,7 @@ public class LoginActivity extends AppCompatActivity {
                 Thread loginUserThread = new Thread(
                     () -> LoginActivity.this.messagingRepository.loginUser(username));
                 loginUserThread.start();
+
             }
         });
 

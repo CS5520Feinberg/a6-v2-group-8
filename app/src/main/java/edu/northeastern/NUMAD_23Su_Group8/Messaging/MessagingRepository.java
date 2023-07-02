@@ -79,7 +79,7 @@ public class MessagingRepository {
 
               Log.i(TAG, String.format("User %s being logged in", userName));
               this.activityThreadHandler.post(() -> {
-                Intent intent = new Intent(this.activityContext, MessagingActivity.class);
+                Intent intent = new Intent(this.activityContext, MessagingChatActivity.class);
                 this.activityContext.startActivity(intent);
               });
             } else {
@@ -109,7 +109,7 @@ public class MessagingRepository {
             if (!flag) {
               Log.i(TAG, String.format("User %s being logged in", userName));
               this.activityThreadHandler.post(() -> {
-                Intent intent = new Intent(this.activityContext, MessagingActivity.class);
+                Intent intent = new Intent(this.activityContext, MessagingChatActivity.class);
                 this.activityContext.startActivity(intent);
               });
             } else {
