@@ -56,7 +56,9 @@ public class MessagingRepository {
   public MessagingRepository(Handler handler, Context activityContext) {
     this.activityThreadHandler = handler;
     this.activityContext = activityContext;
-    this.firebaseDbHandler = new FirebaseDBHandler(this.getUserChildEventListener(activityContext));
+    this.firebaseDbHandler = new FirebaseDBHandler();
+
+    this.firebaseDbHandler.addUsersChildEventListener(this.getUserChildEventListener(activityContext));
   }
 
   public void registerUser(String userName) {
@@ -78,6 +80,8 @@ public class MessagingRepository {
               this.firebaseDbHandler.addUserToDb(userName);
 
               Log.i(TAG, String.format("User %s being logged in", userName));
+
+              this.firebaseDbHandler.setCurrentUserName(userName);
               this.activityThreadHandler.post(() -> {
                 Intent intent = new Intent(this.activityContext, MessagingChatActivity.class);
                 this.activityContext.startActivity(intent);
@@ -108,6 +112,8 @@ public class MessagingRepository {
 
             if (!flag) {
               Log.i(TAG, String.format("User %s being logged in", userName));
+
+              this.firebaseDbHandler.setCurrentUserName(userName);
               this.activityThreadHandler.post(() -> {
                 Intent intent = new Intent(this.activityContext, MessagingChatActivity.class);
                 this.activityContext.startActivity(intent);
