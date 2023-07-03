@@ -10,7 +10,8 @@ public class FirebaseDBHandler {
   private static final String TAG = "_FirebaseDBHandler";
   private static FirebaseDatabase dbInstance;
 
-  private static String current_userName = null;
+  private static String currentUserName = null;
+  private static FirebaseDBHandler INSTANCE;
 
   private static void initDbReference() {
     if (dbInstance == null) {
@@ -18,12 +19,24 @@ public class FirebaseDBHandler {
     }
   }
 
-  public FirebaseDBHandler() {
+  private FirebaseDBHandler() {
     initDbReference();
   }
 
+  public static FirebaseDBHandler getInstance() {
+    if(INSTANCE == null) {
+      INSTANCE = new FirebaseDBHandler();
+    }
+
+    return INSTANCE;
+  }
+
   public void setCurrentUserName(String userName) {
-    current_userName = userName;
+    currentUserName = userName;
+  }
+
+  public String getCurrentUserName() {
+    return currentUserName;
   }
 
   // TODO: use when resuming MessagingActivity
@@ -38,13 +51,13 @@ public class FirebaseDBHandler {
 
   // TODO: use when creating MessagingChatActivity
   public void addUserChatChildEventListener(ChildEventListener childEventListener) {
-    this.getDbInstance().getReference().child("messages").child(current_userName)
+    this.getDbInstance().getReference().child("messages").child(currentUserName)
         .addChildEventListener(childEventListener);
   }
 
   // TODO: use when destroying MessagingChatActivity
   public void removeUserChatChildEventListener(ChildEventListener childEventListener) {
-    this.getDbInstance().getReference().child("messages").child(current_userName)
+    this.getDbInstance().getReference().child("messages").child(currentUserName)
         .removeEventListener(childEventListener);
   }
 

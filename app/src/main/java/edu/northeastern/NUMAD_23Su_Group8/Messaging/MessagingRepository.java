@@ -17,7 +17,7 @@ import java.util.List;
 public class MessagingRepository {
 
   private static final String TAG = "_MessagingRepository";
-  private final static FirebaseDBHandler firebaseDbHandler = new FirebaseDBHandler();
+  private final static FirebaseDBHandler firebaseDbHandler = FirebaseDBHandler.getInstance();
 
   private static ChildEventListener usersChildEventListener;
 
