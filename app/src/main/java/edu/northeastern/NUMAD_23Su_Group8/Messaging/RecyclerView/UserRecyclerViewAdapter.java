@@ -13,6 +13,7 @@ import edu.northeastern.NUMAD_23Su_Group8.R;
 import edu.northeastern.NUMAD_23Su_Group8.Weather.RecyclerView.CardClickListener;
 import edu.northeastern.NUMAD_23Su_Group8.Weather.RecyclerView.WeatherCard;
 import edu.northeastern.NUMAD_23Su_Group8.Weather.RecyclerView.WeatherViewHolder;
+import java.util.ArrayList;
 import java.util.List;
 
 public class UserRecyclerViewAdapter extends RecyclerView.Adapter<UserViewHolder> {
@@ -50,6 +51,37 @@ public class UserRecyclerViewAdapter extends RecyclerView.Adapter<UserViewHolder
         listener.onChatClick(userCardList.get(position).getUserName());
       }
     });
+  }
+
+  public void addCard(UserCard newCard) {
+    userCardList.add(newCard);
+    notifyItemInserted(userCardList.size() - 1);
+  }
+
+  public void removeCard(String userName) {
+    int pos = -1;
+
+    for(int i = 0; i < this.userCardList.size(); i++) {
+      if(this.userCardList.get(i).getUserName().equals(userName)) {
+        pos = i;
+        break;
+      }
+    }
+
+    if(pos != -1) {
+      userCardList.remove(pos);
+      notifyItemRemoved(pos);
+    }
+  }
+
+  public void setupList(List<String> usersList) {
+    userCardList = new ArrayList<>();
+
+    for(String userString : usersList) {
+      userCardList.add(new UserCard(userString));
+    }
+
+    notifyDataSetChanged();
   }
 
   public void setUserCardClickListener(UserCardClickListener listener) {

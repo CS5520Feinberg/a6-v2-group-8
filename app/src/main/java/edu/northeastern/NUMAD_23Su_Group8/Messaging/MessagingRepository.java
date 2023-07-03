@@ -2,66 +2,72 @@ package edu.northeastern.NUMAD_23Su_Group8.Messaging;
 
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
-import android.widget.Toast;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import com.google.firebase.database.ChildEventListener;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import edu.northeastern.NUMAD_23Su_Group8.Persistence.Firebase.FirebaseDBHandler;
-import java.util.HashMap;
 import android.os.Handler;
+import android.util.Log;
+import android.view.View;
+import android.widget.ProgressBar;
+import android.widget.Toast;
+import com.google.firebase.database.ChildEventListener;
+import edu.northeastern.NUMAD_23Su_Group8.Messaging.RecyclerView.UserRecyclerViewAdapter;
+import edu.northeastern.NUMAD_23Su_Group8.Persistence.Firebase.FirebaseDBHandler;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 public class MessagingRepository {
 
   private static final String TAG = "_MessagingRepository";
-  private final Handler activityThreadHandler;
-  private final Context activityContext;
-  private final FirebaseDBHandler firebaseDbHandler;
+  private final static FirebaseDBHandler firebaseDbHandler = new FirebaseDBHandler();
 
-  private ChildEventListener getUserChildEventListener(Context activityContext) {
-    return new ChildEventListener() {
+  private static ChildEventListener usersChildEventListener;
 
-      @Override
-      public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+  private static MessagingRepository INSTANCE;
 
-      }
-
-      @Override
-      public void onChildChanged(@NonNull DataSnapshot snapshot,
-          @Nullable String previousChildName) {
-
-      }
-
-      @Override
-      public void onChildRemoved(@NonNull DataSnapshot snapshot) {
-
-      }
-
-      @Override
-      public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
-      }
-
-      @Override
-      public void onCancelled(@NonNull DatabaseError error) {
-        Log.e(TAG, "onCancelled:" + error);
-        Toast.makeText(activityContext
-            , "DBError: " + error, Toast.LENGTH_SHORT).show();
-      }
-    };
+  private MessagingRepository() {
   }
 
-  public MessagingRepository(Handler handler, Context activityContext) {
-    this.activityThreadHandler = handler;
-    this.activityContext = activityContext;
-    this.firebaseDbHandler = new FirebaseDBHandler();
+  public static MessagingRepository getInstance() {
+    if (INSTANCE == null) {
+      INSTANCE = new MessagingRepository();
+    }
 
-    this.firebaseDbHandler.addUsersChildEventListener(this.getUserChildEventListener(activityContext));
+    return INSTANCE;
   }
 
-  public void registerUser(String userName) {
+  public void addUsersChildEventListener(ChildEventListener childEventListener) {
+    usersChildEventListener = childEventListener;
+
+    firebaseDbHandler.addUsersChildEventListener(usersChildEventListener);
+  }
+
+  public void removeUsersChildEventListener() {
+    firebaseDbHandler.removeUsersChildEventListener(usersChildEventListener);
+  }
+
+  public void loadUserList(Handler handler, UserRecyclerViewAdapter adapter, ProgressBar progressBar) {
+    firebaseDbHandler.getDbInstance().getReference().child("users").get()
+        .addOnCompleteListener(task -> {
+          if (!task.isSuccessful()) {
+            Log.e("firebase", "Error getting data", task.getException());
+          } else {
+            List<String> userList = new ArrayList<>();
+            HashMap value = (HashMap) task.getResult().getValue();
+
+            for (Object key : value.keySet()) {
+              userList.add(key.toString());
+            }
+
+            Log.i(TAG, String.format("Users being added to the Recycler View"));
+            handler.post(() -> {
+              adapter.setupList(userList);
+              progressBar.setVisibility(View.INVISIBLE);
+            });
+          }
+        });
+
+  }
+
+  public void registerUser(Handler handler, Context activityContext, String userName) {
     firebaseDbHandler.getDbInstance().getReference().child("users").get()
         .addOnCompleteListener(task -> {
           if (!task.isSuccessful()) {
@@ -77,26 +83,26 @@ public class MessagingRepository {
 
             if (flag) {
               Log.i(TAG, String.format("User %s being added to database", userName));
-              this.firebaseDbHandler.addUserToDb(userName);
+              firebaseDbHandler.addUserToDb(userName);
 
               Log.i(TAG, String.format("User %s being logged in", userName));
 
-              this.firebaseDbHandler.setCurrentUserName(userName);
-              this.activityThreadHandler.post(() -> {
-                Intent intent = new Intent(this.activityContext, MessagingChatActivity.class);
-                this.activityContext.startActivity(intent);
+              firebaseDbHandler.setCurrentUserName(userName);
+              handler.post(() -> {
+                Intent intent = new Intent(activityContext, MessagingActivity.class);
+                activityContext.startActivity(intent);
               });
             } else {
               Log.i(TAG, String.format("User %s already exists", userName));
-              this.activityThreadHandler.post(
-                  () -> Toast.makeText(this.activityContext, "User already exists! ",
+              handler.post(
+                  () -> Toast.makeText(activityContext, "User already exists! ",
                       Toast.LENGTH_SHORT).show());
             }
           }
         });
   }
 
-  public void loginUser(String userName) {
+  public void loginUser(Handler handler, Context activityContext, String userName) {
     firebaseDbHandler.getDbInstance().getReference().child("users").get()
         .addOnCompleteListener(task -> {
           if (!task.isSuccessful()) {
@@ -113,14 +119,14 @@ public class MessagingRepository {
             if (!flag) {
               Log.i(TAG, String.format("User %s being logged in", userName));
 
-              this.firebaseDbHandler.setCurrentUserName(userName);
-              this.activityThreadHandler.post(() -> {
-                Intent intent = new Intent(this.activityContext, MessagingChatActivity.class);
-                this.activityContext.startActivity(intent);
+              firebaseDbHandler.setCurrentUserName(userName);
+              handler.post(() -> {
+                Intent intent = new Intent(activityContext, MessagingActivity.class);
+                activityContext.startActivity(intent);
               });
             } else {
-              Log.i(TAG, String.format("User %s being added to database", userName));
-              this.activityThreadHandler.post(() -> Toast.makeText(this.activityContext,
+              Log.i(TAG, String.format("User %s does not exist", userName));
+              handler.post(() -> Toast.makeText(activityContext,
                   "User does no exist, please register. ", Toast.LENGTH_SHORT).show());
             }
           }

@@ -1,5 +1,6 @@
 package edu.northeastern.NUMAD_23Su_Group8.Messaging;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -7,8 +8,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import edu.northeastern.NUMAD_23Su_Group8.R;
 
 public class LoginActivity extends AppCompatActivity {
@@ -26,7 +32,7 @@ public class LoginActivity extends AppCompatActivity {
         Button buttonLogin = findViewById(R.id.loginButton);
         Button buttonRegister = findViewById(R.id.registerButton);
 
-        this.messagingRepository = new MessagingRepository(this.handler, this);
+        this.messagingRepository = MessagingRepository.getInstance();
 
         buttonLogin.setOnClickListener(v -> {
             String username = editTextUsername.getText().toString();
@@ -36,7 +42,7 @@ public class LoginActivity extends AppCompatActivity {
             } else {
                 Log.i(TAG, "Login User thread started");
                 Thread loginUserThread = new Thread(
-                    () -> LoginActivity.this.messagingRepository.loginUser(username));
+                    () -> LoginActivity.this.messagingRepository.loginUser(this.handler, this, username));
                 loginUserThread.start();
 
             }
@@ -50,7 +56,7 @@ public class LoginActivity extends AppCompatActivity {
             } else {
                 Log.i(TAG, "Register User thread started");
                 Thread registerUserThread = new Thread(
-                    () -> LoginActivity.this.messagingRepository.registerUser(username));
+                    () -> LoginActivity.this.messagingRepository.registerUser(this.handler, this, username));
                 registerUserThread.start();
             }
         });
