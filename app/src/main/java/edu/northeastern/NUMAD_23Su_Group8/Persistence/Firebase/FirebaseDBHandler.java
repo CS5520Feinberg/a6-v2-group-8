@@ -39,12 +39,10 @@ public class FirebaseDBHandler {
     return currentUserName;
   }
 
-  // TODO: use when resuming MessagingActivity
   public void addUsersChildEventListener(ChildEventListener childEventListener) {
     this.getDbInstance().getReference().child("users").addChildEventListener(childEventListener);
   }
 
-  // TODO: use when pausing MessagingActivity
   public void removeUsersChildEventListener(ChildEventListener childEventListener) {
     this.getDbInstance().getReference().child("users").removeEventListener(childEventListener);
   }
