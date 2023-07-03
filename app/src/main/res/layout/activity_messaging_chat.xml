@@ -1,183 +1,225 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  tools:context=".Messaging.MessagingChatActivity">
+
+  <androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".Messaging.MessagingChatActivity">
+    android:layout_height="wrap_content"
+
+    app:layout_constraintBottom_toBottomOf="parent">
 
     <TextView
-        android:id="@+id/messageChat"
+      android:id="@+id/messageChat"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+
+      android:text="@string/tap_a_sticker_to_send"
+      android:textAlignment="center"
+
+      app:layout_constraintBottom_toTopOf="@id/stickerOneCard"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent" />
+
+    <androidx.cardview.widget.CardView
+      android:id="@+id/stickerOneCard"
+
+      android:layout_width="0dp"
+      android:layout_height="0dp"
+      app:layout_constraintDimensionRatio="1:1"
+
+      app:cardCornerRadius="8dp"
+      app:cardElevation="8dp"
+
+      app:cardUseCompatPadding="true"
+
+      app:layout_constraintBottom_toTopOf="@id/stickerFiveCard"
+      app:layout_constraintEnd_toStartOf="@id/stickerTwoCard"
+      app:layout_constraintStart_toStartOf="parent">
+
+      <ImageView
+        android:id="@+id/stickerOne"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="228dp"
-        android:gravity="center"
-        android:text="@string/tap_a_sticker_to_send"
-        android:textAlignment="center"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/stickerOneCard"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_marginTop="8dp"
-        app:cardCornerRadius="8dp"
-        app:cardElevation="8dp"
-        app:cardUseCompatPadding="true"
-        app:layout_constraintEnd_toStartOf="@+id/stickerTwoCard"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/messageChat">
-
-        <ImageView
-            android:id="@+id/stickerOne"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scaleType="centerCrop"
-            app:srcCompat="@drawable/sticker_1" />
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        app:srcCompat="@drawable/sticker_1" />
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/stickerEightCard"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_marginTop="12dp"
-        app:cardCornerRadius="8dp"
-        app:cardElevation="8dp"
-        app:cardUseCompatPadding="true"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/stickerSevenCard"
-        app:layout_constraintTop_toBottomOf="@+id/stickerFourCard">
+      android:id="@+id/stickerTwoCard"
 
-        <ImageView
-            android:id="@+id/stickerEight"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scaleType="centerCrop"
-            app:srcCompat="@drawable/sticker_8" />
+      android:layout_width="0dp"
+      android:layout_height="0dp"
+      app:layout_constraintDimensionRatio="1:1"
+
+      app:cardCornerRadius="8dp"
+      app:cardElevation="8dp"
+
+      app:cardUseCompatPadding="true"
+
+      app:layout_constraintStart_toEndOf="@id/stickerOneCard"
+      app:layout_constraintEnd_toStartOf="@id/stickerThreeCard"
+      app:layout_constraintTop_toBottomOf="@id/messageChat"
+      app:layout_constraintBottom_toTopOf="@id/stickerSixCard">
+
+      <ImageView
+        android:id="@+id/stickerTwo"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        app:srcCompat="@drawable/sticker_2" />
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/stickerThreeCard"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_marginTop="8dp"
-        app:cardCornerRadius="8dp"
-        app:cardElevation="8dp"
-        app:cardUseCompatPadding="true"
-        app:layout_constraintEnd_toStartOf="@+id/stickerFourCard"
-        app:layout_constraintStart_toEndOf="@id/stickerTwoCard"
-        app:layout_constraintTop_toBottomOf="@+id/messageChat">
+      android:id="@+id/stickerThreeCard"
 
-        <ImageView
-            android:id="@+id/stickerThree"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scaleType="centerCrop"
-            app:srcCompat="@drawable/sticker_3" />
+      android:layout_width="0dp"
+      android:layout_height="0dp"
+      app:layout_constraintDimensionRatio="1:1"
+
+      app:cardCornerRadius="8dp"
+      app:cardElevation="8dp"
+
+      app:cardUseCompatPadding="true"
+
+      app:layout_constraintEnd_toStartOf="@id/stickerFourCard"
+      app:layout_constraintStart_toEndOf="@id/stickerTwoCard"
+      app:layout_constraintTop_toBottomOf="@id/messageChat">
+
+      <ImageView
+        android:id="@+id/stickerThree"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        app:srcCompat="@drawable/sticker_3" />
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/stickerFourCard"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_marginTop="8dp"
-        app:cardCornerRadius="8dp"
-        app:cardElevation="8dp"
-        app:cardUseCompatPadding="true"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/stickerThreeCard"
-        app:layout_constraintTop_toBottomOf="@+id/messageChat">
+      android:id="@+id/stickerFourCard"
 
-        <ImageView
-            android:id="@+id/stickerFour"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scaleType="centerCrop"
-            app:srcCompat="@drawable/sticker_4" />
+      android:layout_width="0dp"
+      android:layout_height="0dp"
+      app:layout_constraintDimensionRatio="1:1"
+
+      app:cardCornerRadius="8dp"
+      app:cardElevation="8dp"
+
+      app:cardUseCompatPadding="true"
+
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toEndOf="@id/stickerThreeCard"
+      app:layout_constraintBottom_toTopOf="@id/stickerEightCard"
+      app:layout_constraintTop_toBottomOf="@+id/messageChat">
+
+      <ImageView
+        android:id="@+id/stickerFour"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        app:srcCompat="@drawable/sticker_4" />
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/stickerSevenCard"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_marginTop="12dp"
-        app:cardCornerRadius="8dp"
-        app:cardElevation="8dp"
-        app:cardUseCompatPadding="true"
-        app:layout_constraintEnd_toStartOf="@+id/stickerEightCard"
-        app:layout_constraintStart_toEndOf="@+id/stickerSixCard"
-        app:layout_constraintTop_toBottomOf="@+id/stickerThreeCard">
+      android:id="@+id/stickerSevenCard"
 
-        <ImageView
-            android:id="@+id/stickerSeven"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scaleType="centerCrop"
-            app:srcCompat="@drawable/sticker_7" />
+      android:layout_width="0dp"
+      android:layout_height="0dp"
+      app:layout_constraintDimensionRatio="1:1"
+
+      app:cardCornerRadius="8dp"
+      app:cardElevation="8dp"
+
+      app:cardUseCompatPadding="true"
+
+      app:layout_constraintEnd_toStartOf="@id/stickerEightCard"
+      app:layout_constraintStart_toEndOf="@id/stickerSixCard"
+      app:layout_constraintTop_toBottomOf="@id/stickerThreeCard"
+      app:layout_constraintBottom_toBottomOf="parent">
+
+      <ImageView
+        android:id="@+id/stickerSeven"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        app:srcCompat="@drawable/sticker_7" />
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/stickerSixCard"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_marginTop="12dp"
-        app:cardCornerRadius="8dp"
-        app:cardElevation="8dp"
-        app:cardUseCompatPadding="true"
-        app:layout_constraintEnd_toStartOf="@+id/stickerSevenCard"
-        app:layout_constraintStart_toEndOf="@+id/stickerFiveCard"
-        app:layout_constraintTop_toBottomOf="@+id/stickerTwoCard">
+      android:id="@+id/stickerSixCard"
 
-        <ImageView
-            android:id="@+id/stickerSix"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scaleType="centerCrop"
-            app:srcCompat="@drawable/sticker_6" />
+      android:layout_width="0dp"
+      android:layout_height="0dp"
+      app:layout_constraintDimensionRatio="1:1"
+
+      app:cardCornerRadius="8dp"
+      app:cardElevation="8dp"
+
+      app:cardUseCompatPadding="true"
+
+      app:layout_constraintEnd_toStartOf="@+id/stickerSevenCard"
+      app:layout_constraintStart_toEndOf="@+id/stickerFiveCard"
+      app:layout_constraintTop_toBottomOf="@+id/stickerTwoCard"
+      app:layout_constraintBottom_toBottomOf="parent">
+
+      <ImageView
+        android:id="@+id/stickerSix"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        app:srcCompat="@drawable/sticker_6" />
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/stickerFiveCard"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_marginTop="12dp"
-        app:cardCornerRadius="8dp"
-        app:cardElevation="8dp"
-        app:cardUseCompatPadding="true"
-        app:layout_constraintEnd_toStartOf="@+id/stickerSixCard"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/stickerOneCard">
+      android:id="@+id/stickerFiveCard"
 
-        <ImageView
-            android:id="@+id/stickerFive"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scaleType="centerCrop"
-            app:srcCompat="@drawable/sticker_5" />
+      android:layout_width="0dp"
+      android:layout_height="0dp"
+      app:layout_constraintDimensionRatio="1:1"
+
+      app:cardCornerRadius="8dp"
+      app:cardElevation="8dp"
+
+      app:cardUseCompatPadding="true"
+
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintEnd_toStartOf="@id/stickerSixCard"
+      app:layout_constraintBottom_toBottomOf="parent">
+
+      <ImageView
+        android:id="@+id/stickerFive"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        app:srcCompat="@drawable/sticker_5" />
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/stickerTwoCard"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_marginTop="8dp"
-        app:cardCornerRadius="8dp"
-        app:cardElevation="8dp"
-        app:cardUseCompatPadding="true"
-        app:layout_constraintEnd_toStartOf="@+id/stickerThreeCard"
-        app:layout_constraintStart_toEndOf="@id/stickerOneCard"
-        app:layout_constraintTop_toBottomOf="@+id/messageChat">
+      android:id="@+id/stickerEightCard"
 
-        <ImageView
-            android:id="@+id/stickerTwo"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scaleType="centerCrop"
-            app:srcCompat="@drawable/sticker_2" />
+      android:layout_width="0dp"
+      android:layout_height="0dp"
+      app:layout_constraintDimensionRatio="1:1"
+
+      app:cardCornerRadius="8dp"
+      app:cardElevation="8dp"
+
+      app:cardUseCompatPadding="true"
+
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toEndOf="@id/stickerSevenCard"
+      app:layout_constraintTop_toBottomOf="@id/stickerFourCard"
+      app:layout_constraintBottom_toBottomOf="parent">
+
+      <ImageView
+        android:id="@+id/stickerEight"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        app:srcCompat="@drawable/sticker_8" />
     </androidx.cardview.widget.CardView>
-
+  </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
