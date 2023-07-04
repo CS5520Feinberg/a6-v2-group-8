@@ -19,6 +19,8 @@ public class MessageCard {
         this.sentByUser = sentByUser;
     }
 
+    public MessageCard(){}
+
     public int getStickerId() {
         return stickerResourceId;
     }

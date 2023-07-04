@@ -4,7 +4,6 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -65,6 +64,8 @@ public class MessageRecyclerViewAdapter extends RecyclerView.Adapter<MessageView
     }
 
 
+
+
     @Override
     public int getItemCount() {
         return this.messageCardList.size();
@@ -74,9 +75,10 @@ public class MessageRecyclerViewAdapter extends RecyclerView.Adapter<MessageView
         notifyDataSetChanged();
     }
 
-    public void addMessageCard(MessageCard messageCard) {
-        messageCardList.add(messageCard);
-        notifyDataSetChanged();
+    public void addMessageCards(List<MessageCard> messageCards) {
+        int startingPos = messageCardList.size();
+        messageCardList.addAll(messageCards);
+        notifyItemRangeInserted(startingPos, messageCards.size());
     }
 
 

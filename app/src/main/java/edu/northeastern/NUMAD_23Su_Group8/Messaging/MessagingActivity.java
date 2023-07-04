@@ -16,6 +16,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
+
+import edu.northeastern.NUMAD_23Su_Group8.Messaging.MessagesRecyclerView.MessageCard;
+import edu.northeastern.NUMAD_23Su_Group8.Messaging.MessagesRecyclerView.MessageRecyclerViewAdapter;
 import edu.northeastern.NUMAD_23Su_Group8.Messaging.RecyclerView.UserCard;
 import edu.northeastern.NUMAD_23Su_Group8.Messaging.RecyclerView.UserCardClickListener;
 import edu.northeastern.NUMAD_23Su_Group8.Messaging.RecyclerView.UserRecyclerViewAdapter;
@@ -37,6 +42,7 @@ public class MessagingActivity extends AppCompatActivity {
   private final Handler handler = new Handler();
   private RecyclerView usersRecyclerView;
   private UserRecyclerViewAdapter userRecyclerViewAdapter;
+
   private MessagingRepository messagingRepository;
   private ProgressBar progressBar;
 
@@ -53,6 +59,8 @@ public class MessagingActivity extends AppCompatActivity {
     UserCardClickListener userCardClickListener = userName -> {
       Intent intent = new Intent(MessagingActivity.this, MessagingChatActivity.class);
       intent.putExtra("userName", userName);
+
+
       startActivity(intent);
     };
 
