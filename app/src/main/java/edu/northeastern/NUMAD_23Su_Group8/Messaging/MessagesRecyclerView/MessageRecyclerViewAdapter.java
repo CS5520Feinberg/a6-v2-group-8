@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -17,6 +18,8 @@ public class MessageRecyclerViewAdapter extends RecyclerView.Adapter<MessageView
     private Context parentContext;
 
     private List<MessageCard> messageCardList;
+
+    private int imageResourceId = R.drawable._01d;
 
     public MessageRecyclerViewAdapter(List<MessageCard> messageCardList) {
         this.messageCardList = messageCardList;
@@ -34,7 +37,14 @@ public class MessageRecyclerViewAdapter extends RecyclerView.Adapter<MessageView
 
     @Override
     public void onBindViewHolder(@NonNull MessageViewHolder holder, int position) {
+        ImageView imageView = holder.getStickerCard();
 
+        imageView.setImageResource(imageResourceId);
+    }
+
+    public void updateImageResource(int resourceId) {
+        imageResourceId = resourceId;
+        notifyDataSetChanged();
     }
 
     @Override
