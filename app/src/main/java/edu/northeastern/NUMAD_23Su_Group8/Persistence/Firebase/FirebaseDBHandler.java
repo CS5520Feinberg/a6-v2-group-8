@@ -3,6 +3,10 @@ package edu.northeastern.NUMAD_23Su_Group8.Persistence.Firebase;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.HashMap;
+
+import edu.northeastern.NUMAD_23Su_Group8.Messaging.MessagesRecyclerView.MessageCard;
 import edu.northeastern.NUMAD_23Su_Group8.Persistence.Firebase.Entities.User;
 
 public class FirebaseDBHandler {
@@ -11,6 +15,9 @@ public class FirebaseDBHandler {
   private static FirebaseDatabase dbInstance;
 
   private static String currentUserName = null;
+
+  private static String partnerUserName = null;
+
   private static FirebaseDBHandler INSTANCE;
 
   private static void initDbReference() {
@@ -47,13 +54,13 @@ public class FirebaseDBHandler {
     this.getDbInstance().getReference().child("users").removeEventListener(childEventListener);
   }
 
-  // TODO: use when creating MessagingChatActivity
   public void addUserChatChildEventListener(ChildEventListener childEventListener) {
     this.getDbInstance().getReference().child("messages").child(currentUserName)
         .addChildEventListener(childEventListener);
+
+
   }
 
-  // TODO: use when destroying MessagingChatActivity
   public void removeUserChatChildEventListener(ChildEventListener childEventListener) {
     this.getDbInstance().getReference().child("messages").child(currentUserName)
         .removeEventListener(childEventListener);
@@ -64,25 +71,34 @@ public class FirebaseDBHandler {
   }
 
   public void addUserToDb(String uname) {
-    DatabaseReference myRef = dbInstance.getReference("message");
     User user = new User(uname);
 
     // add user to firebase database
     dbInstance.getReference().child("users").child(user.uname).setValue(user);
-
-    // NOTE: Not needed
-//    // Read from the database by listening for a change to that item.
-//    myRef.addValueEventListener(new ValueEventListener() {
-//      @Override
-//      public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//        String value = dataSnapshot.getValue(String.class);
-//        Log.d(TAG, "Value is: " + value);
-//      }
-//
-//      @Override
-//      public void onCancelled(@NonNull DatabaseError error) {
-//        Log.w(TAG, "Failed to read value.", error.toException());
-//      }
-//    });
   }
+
+  public void addMessageToDb(String partnerId, MessageCard messageCard) {
+
+    setPartnerUserName(partnerId);
+
+    DatabaseReference myRef = dbInstance.getReference("messages").child(currentUserName).child(partnerId);
+
+    // Generate a new unique key for the message
+    String messageId = dbInstance.getReference().child("messages").push().getKey();
+
+    // setting messageCard for the sender of the message
+    HashMap<String, Object> messageData = new HashMap<>();
+    messageData.put("sent", messageCard.isSentByUser());
+    messageData.put("timestamp", messageCard.getTimestamp());
+    messageData.put("stickerId", messageCard.getStickerId());
+
+    myRef.child(messageId).setValue(messageData);
+
+
+  }
+
+  public void setPartnerUserName(String partnerId) {
+    partnerUserName = partnerId;
+  }
+
 }

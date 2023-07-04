@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
@@ -23,6 +24,8 @@ public class MessagingChatActivity extends AppCompatActivity {
     private final Handler handler = new Handler();
     private RecyclerView messagesRecyclerView;
     private MessageRecyclerViewAdapter messageRecyclerViewAdapter;
+
+    private MessagingRepository messagingRepository;
 
 
     private void setupRecyclerView(ActivityMessagingChatBinding binding) {
@@ -45,6 +48,14 @@ public class MessagingChatActivity extends AppCompatActivity {
         this.messageRecyclerViewAdapter = new MessageRecyclerViewAdapter(messageCardList);
         this.messagesRecyclerView.setAdapter(this.messageRecyclerViewAdapter);
 
+        messagingRepository = MessagingRepository.getInstance();
+
+        Intent intent = getIntent();
+
+        String partnerUserName = intent.getStringExtra("userName");
+
+
+
 
         ImageButton button1 = binding.stickerOne;
         ImageButton button2 = binding.stickerTwo;
@@ -62,9 +73,14 @@ public class MessagingChatActivity extends AppCompatActivity {
             boolean sent = true;
             int stickerResourceId = R.drawable.sticker_1;
             MessageCard messageCard = new MessageCard(stickerResourceId, timestamp, sent);
+
+            messagingRepository.addMessageToDb(handler, this, partnerUserName, messageCard);
+
             messageRecyclerViewAdapter.addMessageCard(messageCard);
             int lastItem = messageRecyclerViewAdapter.getItemCount() - 1;
             messagesRecyclerView.scrollToPosition(lastItem);
+
+
         });
 
         button2.setOnClickListener(v -> {

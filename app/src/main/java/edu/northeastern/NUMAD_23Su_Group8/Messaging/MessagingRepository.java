@@ -8,6 +8,8 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 import com.google.firebase.database.ChildEventListener;
+
+import edu.northeastern.NUMAD_23Su_Group8.Messaging.MessagesRecyclerView.MessageCard;
 import edu.northeastern.NUMAD_23Su_Group8.Messaging.RecyclerView.UserRecyclerViewAdapter;
 import edu.northeastern.NUMAD_23Su_Group8.Persistence.Firebase.FirebaseDBHandler;
 import java.util.ArrayList;
@@ -20,6 +22,7 @@ public class MessagingRepository {
   private final static FirebaseDBHandler firebaseDbHandler = FirebaseDBHandler.getInstance();
 
   private static ChildEventListener usersChildEventListener;
+  private static ChildEventListener messageChildEventListener;
 
   private static MessagingRepository INSTANCE;
 
@@ -44,6 +47,22 @@ public class MessagingRepository {
     firebaseDbHandler.removeUsersChildEventListener(usersChildEventListener);
   }
 
+  public void addUserChatChildEventListener(ChildEventListener childEventListener) {
+
+    messageChildEventListener = childEventListener;
+
+    firebaseDbHandler.addUserChatChildEventListener(messageChildEventListener);
+  }
+
+  public void removeUserChatChildEventListener() {
+    firebaseDbHandler.removeUserChatChildEventListener(messageChildEventListener);
+  }
+
+
+  public void addMessageToDb(Handler handler, Context activityContext, String partnerId, MessageCard messageCard) {
+    firebaseDbHandler.addMessageToDb(partnerId, messageCard);
+
+  }
   public void loadUserList(Handler handler, UserRecyclerViewAdapter adapter, ProgressBar progressBar) {
     firebaseDbHandler.getDbInstance().getReference().child("users").get()
         .addOnCompleteListener(task -> {
@@ -127,9 +146,15 @@ public class MessagingRepository {
             } else {
               Log.i(TAG, String.format("User %s does not exist", userName));
               handler.post(() -> Toast.makeText(activityContext,
-                  "User does no exist, please register. ", Toast.LENGTH_SHORT).show());
+                  "User does not exist, please register. ", Toast.LENGTH_SHORT).show());
             }
           }
         });
+  }
+
+
+
+  public String getCurrentUser(Handler handler, Context activityContext) {
+    return firebaseDbHandler.getCurrentUserName();
   }
 }

@@ -124,13 +124,16 @@ public class MessagingActivity extends AppCompatActivity {
     runOnUiThread(() -> progressBar.setVisibility(View.VISIBLE));
 
     this.messagingRepository.loadUserList(this.handler, this.userRecyclerViewAdapter, this.progressBar);
-
     this.messagingRepository.addUsersChildEventListener(this.getUserChildEventListener(this));
+
+    this.messagingRepository.addUserChatChildEventListener(this.getUserChildEventListener(this));
+
   }
 
   @Override
   protected void onPause() {
     super.onPause();
     this.messagingRepository.removeUsersChildEventListener();
+    this.messagingRepository.removeUserChatChildEventListener();
   }
 }

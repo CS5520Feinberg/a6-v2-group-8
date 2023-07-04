@@ -5,4 +5,5 @@ package edu.northeastern.NUMAD_23Su_Group8.Messaging.RecyclerView;
  */
 public interface UserCardClickListener {
   void onChatClick(String userName);
+
 }
