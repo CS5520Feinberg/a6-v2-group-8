@@ -49,7 +49,7 @@ public class MessagingActivity extends AppCompatActivity {
   }
 
   private void setupRecyclerViewListenerAndAdapter() {
-    // set up a listener for city card click
+    // set up a listener for card click
     UserCardClickListener userCardClickListener = userName -> {
       Intent intent = new Intent(MessagingActivity.this, MessagingChatActivity.class);
       intent.putExtra("userName", userName);
