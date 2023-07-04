@@ -47,6 +47,117 @@ public class MessagingChatActivity extends AppCompatActivity {
 
 
         ImageButton button1 = binding.stickerOne;
+        ImageButton button2 = binding.stickerTwo;
+        ImageButton button3 = binding.stickerThree;
+        ImageButton button4 = binding.stickerFour;
+        ImageButton button5 = binding.stickerFive;
+        ImageButton button6 = binding.stickerSix;
+        ImageButton button7 = binding.stickerSeven;
+        ImageButton button8 = binding.stickerEight;
+
+        button1.setOnClickListener(v -> {
+            // TODO put to 'conversations' database, add to recycler view.
+
+            long timestamp = System.currentTimeMillis();
+            boolean sent = true;
+            int stickerResourceId = R.drawable.sticker_1;
+            MessageCard messageCard = new MessageCard(stickerResourceId, timestamp, sent);
+            messageRecyclerViewAdapter.addMessageCard(messageCard);
+            int lastItem = messageRecyclerViewAdapter.getItemCount() - 1;
+            messagesRecyclerView.scrollToPosition(lastItem);
+        });
+
+        button2.setOnClickListener(v -> {
+            // TODO put to 'conversations' database, add to recycler view.
+
+            long timestamp = System.currentTimeMillis();
+            boolean sent = true;
+            int stickerResourceId = R.drawable.sticker_2;
+            MessageCard messageCard = new MessageCard(stickerResourceId, timestamp, sent);
+            messageRecyclerViewAdapter.addMessageCard(messageCard);
+            int lastItem = messageRecyclerViewAdapter.getItemCount() - 1;
+            messagesRecyclerView.scrollToPosition(lastItem);
+        });
+
+        button3.setOnClickListener(v -> {
+            // TODO put to 'conversations' database, add to recycler view.
+
+            long timestamp = System.currentTimeMillis();
+            boolean sent = true;
+            int stickerResourceId = R.drawable.sticker_3;
+            MessageCard messageCard = new MessageCard(stickerResourceId, timestamp, sent);
+            messageRecyclerViewAdapter.addMessageCard(messageCard);
+            int lastItem = messageRecyclerViewAdapter.getItemCount() - 1;
+            messagesRecyclerView.scrollToPosition(lastItem);
+        });
+
+        button4.setOnClickListener(v -> {
+            // TODO put to 'conversations' database, add to recycler view.
+
+            long timestamp = System.currentTimeMillis();
+            boolean sent = true;
+            int stickerResourceId = R.drawable.sticker_4;
+            MessageCard messageCard = new MessageCard(stickerResourceId, timestamp, sent);
+            messageRecyclerViewAdapter.addMessageCard(messageCard);
+            int lastItem = messageRecyclerViewAdapter.getItemCount() - 1;
+            messagesRecyclerView.scrollToPosition(lastItem);
+        });
+
+        button5.setOnClickListener(v -> {
+            // TODO put to 'conversations' database, add to recycler view.
+
+            long timestamp = System.currentTimeMillis();
+            boolean sent = true;
+            int stickerResourceId = R.drawable.sticker_5;
+            MessageCard messageCard = new MessageCard(stickerResourceId, timestamp, sent);
+            messageRecyclerViewAdapter.addMessageCard(messageCard);
+            int lastItem = messageRecyclerViewAdapter.getItemCount() - 1;
+            messagesRecyclerView.scrollToPosition(lastItem);
+        });
+
+        button6.setOnClickListener(v -> {
+            // TODO put to 'conversations' database, add to recycler view.
+
+            long timestamp = System.currentTimeMillis();
+            boolean sent = true;
+            int stickerResourceId = R.drawable.sticker_6;
+            MessageCard messageCard = new MessageCard(stickerResourceId, timestamp, sent);
+            messageRecyclerViewAdapter.addMessageCard(messageCard);
+            int lastItem = messageRecyclerViewAdapter.getItemCount() - 1;
+            messagesRecyclerView.scrollToPosition(lastItem);
+        });
+
+        button7.setOnClickListener(v -> {
+            // TODO put to 'conversations' database, add to recycler view.
+
+            long timestamp = System.currentTimeMillis();
+            boolean sent = true;
+            int stickerResourceId = R.drawable.sticker_7;
+            MessageCard messageCard = new MessageCard(stickerResourceId, timestamp, sent);
+            messageRecyclerViewAdapter.addMessageCard(messageCard);
+            int lastItem = messageRecyclerViewAdapter.getItemCount() - 1;
+            messagesRecyclerView.scrollToPosition(lastItem);
+        });
+
+        button8.setOnClickListener(v -> {
+            // TODO put to 'conversations' database, add to recycler view.
+
+            long timestamp = System.currentTimeMillis();
+            boolean sent = true;
+            int stickerResourceId = R.drawable.sticker_8;
+            MessageCard messageCard = new MessageCard(stickerResourceId, timestamp, sent);
+            messageRecyclerViewAdapter.addMessageCard(messageCard);
+
+            int lastItem = messageRecyclerViewAdapter.getItemCount() - 1;
+            messagesRecyclerView.scrollToPosition(lastItem);
+        });
+
+
+
+
+
+
+
 
     }
 

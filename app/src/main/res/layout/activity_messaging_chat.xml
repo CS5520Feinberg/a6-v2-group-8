@@ -14,12 +14,13 @@
         android:dividerHeight="8dp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/stickerPanel"
         app:layout_constraintEnd_toEndOf="parent"
 
         tools:listitem="@layout/card_message"
         />
   <androidx.constraintlayout.widget.ConstraintLayout
+      android:id="@+id/stickerPanel"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:background="@color/white"

@@ -2,8 +2,8 @@ package edu.northeastern.NUMAD_23Su_Group8.Messaging.MessagesRecyclerView;
 
 public class MessageCard {
 
-    private String stickerId;
-    private String timestamp;
+    private int stickerResourceId;
+    private long timestamp;
     private boolean sentByUser;
 
     /**
@@ -13,25 +13,25 @@ public class MessageCard {
      * @param sentByUser -- TRUE if the user sent the sticker, FALSE if the sticker was
      *                   received from another user.
      */
-    public MessageCard(String stickerId, String timestamp, boolean sentByUser) {
-        this.stickerId = stickerId;
+    public MessageCard(int stickerId, long timestamp, boolean sentByUser) {
+        this.stickerResourceId = stickerId;
         this.timestamp = timestamp;
         this.sentByUser = sentByUser;
     }
 
-    public String getStickerId() {
-        return stickerId;
+    public int getStickerId() {
+        return stickerResourceId;
     }
 
-    public void setStickerId(String stickerId) {
-        this.stickerId = stickerId;
+    public void setStickerId(int stickerId) {
+        this.stickerResourceId = (int) stickerId;
     }
 
-    public String getTimestamp() {
+    public long getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(String timestamp) {
+    public void setTimestamp(long timestamp) {
         this.timestamp = timestamp;
     }
 
