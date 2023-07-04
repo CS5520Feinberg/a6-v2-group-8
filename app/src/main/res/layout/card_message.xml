@@ -30,7 +30,7 @@
         />
 
         <TextView
-            android:id="@+id/timeStampFlag"
+            android:id="@+id/timeStamp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="4dp"

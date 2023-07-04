@@ -17,7 +17,6 @@ public class MessageRecyclerViewAdapter extends RecyclerView.Adapter<MessageView
     private Context parentContext;
 
     private List<MessageCard> messageCardList;
-    private MessageCardClickListener listener;
 
     public MessageRecyclerViewAdapter(List<MessageCard> messageCardList) {
         this.messageCardList = messageCardList;
