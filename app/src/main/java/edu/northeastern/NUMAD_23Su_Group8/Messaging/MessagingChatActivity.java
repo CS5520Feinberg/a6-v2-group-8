@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,7 +46,7 @@ public class MessagingChatActivity extends AppCompatActivity {
         this.messagesRecyclerView.setAdapter(this.messageRecyclerViewAdapter);
 
 
-        Button button1 = binding.stickerOne;
+        ImageButton button1 = binding.stickerOne;
 
     }
 
