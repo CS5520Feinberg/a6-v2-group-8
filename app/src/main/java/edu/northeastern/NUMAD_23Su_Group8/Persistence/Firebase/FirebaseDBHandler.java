@@ -82,17 +82,25 @@ public class FirebaseDBHandler {
     setPartnerUserName(partnerId);
 
     DatabaseReference myRef = dbInstance.getReference("messages").child(currentUserName).child(partnerId);
+    DatabaseReference partnerRef = dbInstance.getReference("messages").child(partnerId).child(currentUserName);
 
     // Generate a new unique key for the message
     String messageId = dbInstance.getReference().child("messages").push().getKey();
 
-    // setting messageCard for the sender of the message
-    HashMap<String, Object> messageData = new HashMap<>();
-    messageData.put("sent", messageCard.isSentByUser());
-    messageData.put("timestamp", messageCard.getTimestamp());
-    messageData.put("stickerId", messageCard.getStickerId());
+    // Setting messageCard for the sender of the message
+    HashMap<String, Object> myMessageData = new HashMap<>();
+    myMessageData.put("sent", messageCard.isSentByUser());
+    myMessageData.put("timestamp", messageCard.getTimestamp());
+    myMessageData.put("stickerId", messageCard.getStickerId());
 
-    myRef.child(messageId).setValue(messageData);
+    // Setting messageCard for the partner
+    HashMap<String, Object> partnerMessageData = new HashMap<>();
+    partnerMessageData.put("sent", !messageCard.isSentByUser());  // Flip the sent flag
+    partnerMessageData.put("timestamp", messageCard.getTimestamp());
+    partnerMessageData.put("stickerId", messageCard.getStickerId());
+
+    myRef.child(messageId).setValue(myMessageData);
+    partnerRef.child(messageId).setValue(partnerMessageData);
 
 
   }

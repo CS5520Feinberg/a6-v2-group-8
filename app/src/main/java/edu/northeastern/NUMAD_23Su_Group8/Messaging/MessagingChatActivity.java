@@ -90,6 +90,9 @@ public class MessagingChatActivity extends AppCompatActivity {
             boolean sent = true;
             int stickerResourceId = R.drawable.sticker_2;
             MessageCard messageCard = new MessageCard(stickerResourceId, timestamp, sent);
+
+            messagingRepository.addMessageToDb(handler, this, partnerUserName, messageCard);
+
             messageRecyclerViewAdapter.addMessageCard(messageCard);
             int lastItem = messageRecyclerViewAdapter.getItemCount() - 1;
             messagesRecyclerView.scrollToPosition(lastItem);
@@ -102,6 +105,9 @@ public class MessagingChatActivity extends AppCompatActivity {
             boolean sent = true;
             int stickerResourceId = R.drawable.sticker_3;
             MessageCard messageCard = new MessageCard(stickerResourceId, timestamp, sent);
+
+            messagingRepository.addMessageToDb(handler, this, partnerUserName, messageCard);
+
             messageRecyclerViewAdapter.addMessageCard(messageCard);
             int lastItem = messageRecyclerViewAdapter.getItemCount() - 1;
             messagesRecyclerView.scrollToPosition(lastItem);
@@ -114,6 +120,9 @@ public class MessagingChatActivity extends AppCompatActivity {
             boolean sent = true;
             int stickerResourceId = R.drawable.sticker_4;
             MessageCard messageCard = new MessageCard(stickerResourceId, timestamp, sent);
+
+            messagingRepository.addMessageToDb(handler, this, partnerUserName, messageCard);
+
             messageRecyclerViewAdapter.addMessageCard(messageCard);
             int lastItem = messageRecyclerViewAdapter.getItemCount() - 1;
             messagesRecyclerView.scrollToPosition(lastItem);
@@ -126,6 +135,9 @@ public class MessagingChatActivity extends AppCompatActivity {
             boolean sent = true;
             int stickerResourceId = R.drawable.sticker_5;
             MessageCard messageCard = new MessageCard(stickerResourceId, timestamp, sent);
+
+            messagingRepository.addMessageToDb(handler, this, partnerUserName, messageCard);
+
             messageRecyclerViewAdapter.addMessageCard(messageCard);
             int lastItem = messageRecyclerViewAdapter.getItemCount() - 1;
             messagesRecyclerView.scrollToPosition(lastItem);
@@ -138,6 +150,9 @@ public class MessagingChatActivity extends AppCompatActivity {
             boolean sent = true;
             int stickerResourceId = R.drawable.sticker_6;
             MessageCard messageCard = new MessageCard(stickerResourceId, timestamp, sent);
+
+            messagingRepository.addMessageToDb(handler, this, partnerUserName, messageCard);
+
             messageRecyclerViewAdapter.addMessageCard(messageCard);
             int lastItem = messageRecyclerViewAdapter.getItemCount() - 1;
             messagesRecyclerView.scrollToPosition(lastItem);
@@ -150,6 +165,9 @@ public class MessagingChatActivity extends AppCompatActivity {
             boolean sent = true;
             int stickerResourceId = R.drawable.sticker_7;
             MessageCard messageCard = new MessageCard(stickerResourceId, timestamp, sent);
+
+            messagingRepository.addMessageToDb(handler, this, partnerUserName, messageCard);
+
             messageRecyclerViewAdapter.addMessageCard(messageCard);
             int lastItem = messageRecyclerViewAdapter.getItemCount() - 1;
             messagesRecyclerView.scrollToPosition(lastItem);
@@ -162,8 +180,10 @@ public class MessagingChatActivity extends AppCompatActivity {
             boolean sent = true;
             int stickerResourceId = R.drawable.sticker_8;
             MessageCard messageCard = new MessageCard(stickerResourceId, timestamp, sent);
-            messageRecyclerViewAdapter.addMessageCard(messageCard);
 
+            messagingRepository.addMessageToDb(handler, this, partnerUserName, messageCard);
+
+            messageRecyclerViewAdapter.addMessageCard(messageCard);
             int lastItem = messageRecyclerViewAdapter.getItemCount() - 1;
             messagesRecyclerView.scrollToPosition(lastItem);
         });
