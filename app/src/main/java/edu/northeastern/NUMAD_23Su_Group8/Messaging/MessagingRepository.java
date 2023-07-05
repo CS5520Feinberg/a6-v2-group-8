@@ -7,7 +7,14 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+
 import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
 
 import edu.northeastern.NUMAD_23Su_Group8.Messaging.MessagesRecyclerView.MessageCard;
 import edu.northeastern.NUMAD_23Su_Group8.Messaging.RecyclerView.UserRecyclerViewAdapter;
@@ -67,6 +74,8 @@ public class MessagingRepository {
     firebaseDbHandler.addMessageToDb(partnerId, messageCard);
 
   }
+
+
   public void loadUserList(Handler handler, UserRecyclerViewAdapter adapter, ProgressBar progressBar) {
     firebaseDbHandler.getDbInstance().getReference().child("users").get()
         .addOnCompleteListener(task -> {
@@ -160,5 +169,9 @@ public class MessagingRepository {
 
   public String getCurrentUser(Handler handler, Context activityContext) {
     return firebaseDbHandler.getCurrentUserName();
+  }
+
+  public FirebaseDBHandler getFirebaseDbHandler() {
+    return firebaseDbHandler;
   }
 }

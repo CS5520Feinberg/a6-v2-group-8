@@ -64,6 +64,7 @@ public class MessageRecyclerViewAdapter extends RecyclerView.Adapter<MessageView
     }
 
 
+
     public void setMessageCardList(List<MessageCard> newMessageCardList) {
         this.messageCardList = newMessageCardList;
     }
@@ -77,9 +78,10 @@ public class MessageRecyclerViewAdapter extends RecyclerView.Adapter<MessageView
         notifyDataSetChanged();
     }
 
-    public void addMessageCard(MessageCard messageCard) {
-        messageCardList.add(messageCard);
-        notifyDataSetChanged();
+    public void addMessageCards(List<MessageCard> messageCards) {
+        int startingPos = messageCardList.size();
+        messageCardList.addAll(messageCards);
+        notifyItemRangeInserted(startingPos, messageCards.size());
     }
 
 
