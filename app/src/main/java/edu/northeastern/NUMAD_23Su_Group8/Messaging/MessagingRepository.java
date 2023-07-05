@@ -44,6 +44,10 @@ public class MessagingRepository {
     return INSTANCE;
   }
 
+  public FirebaseDBHandler getFirebaseDbHandler() {
+    return firebaseDbHandler;
+  }
+
   public void addUsersChildEventListener(ChildEventListener childEventListener) {
     usersChildEventListener = childEventListener;
 
