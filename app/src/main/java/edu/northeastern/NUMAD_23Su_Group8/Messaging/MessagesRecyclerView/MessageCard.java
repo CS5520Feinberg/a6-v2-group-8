@@ -4,7 +4,7 @@ public class MessageCard {
 
     private int stickerResourceId;
     private long timestamp;
-    private boolean sentByUser;
+    private boolean sent;
 
     /**
      * Constructor for Card which will display the message in a user "conversation".
@@ -16,7 +16,11 @@ public class MessageCard {
     public MessageCard(int stickerId, long timestamp, boolean sentByUser) {
         this.stickerResourceId = stickerId;
         this.timestamp = timestamp;
-        this.sentByUser = sentByUser;
+        this.sent = sentByUser;
+    }
+
+    public MessageCard(){
+        setSent(true);
     }
 
     public int getStickerId() {
@@ -35,11 +39,11 @@ public class MessageCard {
         this.timestamp = timestamp;
     }
 
-    public boolean isSentByUser() {
-        return sentByUser;
+    public boolean isSent() {
+        return sent;
     }
 
-    public void setSentByUser(boolean sentByUser) {
-        this.sentByUser = sentByUser;
+    public void setSent(boolean sent) {
+        this.sent = sent;
     }
 }

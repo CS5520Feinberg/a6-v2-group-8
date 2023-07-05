@@ -4,7 +4,6 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -54,7 +53,7 @@ public class MessageRecyclerViewAdapter extends RecyclerView.Adapter<MessageView
 
 
         // formatting the Text View depending on whether the sticker was sent or received.
-        if (messageCard.isSentByUser()) {
+        if (messageCard.isSent()) {
             sentFlagTV.setText("Sent!");
             timestampTV.setText("Sticker was sent at: " + formattedTS);
         } else {
@@ -64,6 +63,10 @@ public class MessageRecyclerViewAdapter extends RecyclerView.Adapter<MessageView
 
     }
 
+
+    public void setMessageCardList(List<MessageCard> newMessageCardList) {
+        this.messageCardList = newMessageCardList;
+    }
 
     @Override
     public int getItemCount() {

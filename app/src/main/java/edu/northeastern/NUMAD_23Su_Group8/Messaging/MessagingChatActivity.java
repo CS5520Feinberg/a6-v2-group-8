@@ -1,5 +1,6 @@
 package edu.northeastern.NUMAD_23Su_Group8.Messaging;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -10,6 +11,11 @@ import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -66,6 +72,34 @@ public class MessagingChatActivity extends AppCompatActivity {
         ImageButton button7 = binding.stickerSeven;
         ImageButton button8 = binding.stickerEight;
 
+
+        DatabaseReference conversationRef = messagingRepository.getFirebaseDbHandler()
+                .getDbInstance()
+                .getReference()
+                .child("messages")
+                .child(messagingRepository.getCurrentUser(handler, this))
+                .child(partnerUserName);
+
+        conversationRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                List<MessageCard> messageCards = new ArrayList<>();
+
+                for (DataSnapshot messageSnapshot : snapshot.getChildren()) {
+                    MessageCard messageCard = messageSnapshot.getValue(MessageCard.class);
+                    messageCards.add(messageCard);
+                }
+
+                messageRecyclerViewAdapter.setMessageCardList(messageCards);
+                messageRecyclerViewAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                // Error handling if needed
+            }
+        });
+
         button1.setOnClickListener(v -> {
             // TODO put to 'conversations' database, add to recycler view.
 
@@ -79,6 +113,7 @@ public class MessagingChatActivity extends AppCompatActivity {
             messageRecyclerViewAdapter.addMessageCard(messageCard);
             int lastItem = messageRecyclerViewAdapter.getItemCount() - 1;
             messagesRecyclerView.scrollToPosition(lastItem);
+            messageRecyclerViewAdapter.notifyDataSetChanged();
 
 
         });

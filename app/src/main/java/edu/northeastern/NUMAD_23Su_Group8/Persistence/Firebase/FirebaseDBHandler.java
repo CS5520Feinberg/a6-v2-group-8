@@ -89,13 +89,13 @@ public class FirebaseDBHandler {
 
     // Setting messageCard for the sender of the message
     HashMap<String, Object> myMessageData = new HashMap<>();
-    myMessageData.put("sent", messageCard.isSentByUser());
+    myMessageData.put("sent", messageCard.isSent());
     myMessageData.put("timestamp", messageCard.getTimestamp());
     myMessageData.put("stickerId", messageCard.getStickerId());
 
     // Setting messageCard for the partner
     HashMap<String, Object> partnerMessageData = new HashMap<>();
-    partnerMessageData.put("sent", !messageCard.isSentByUser());  // Flip the sent flag
+    partnerMessageData.put("sent", !messageCard.isSent());  // Flip the sent flag
     partnerMessageData.put("timestamp", messageCard.getTimestamp());
     partnerMessageData.put("stickerId", messageCard.getStickerId());
 
