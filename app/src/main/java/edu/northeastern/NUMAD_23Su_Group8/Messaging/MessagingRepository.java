@@ -170,8 +170,4 @@ public class MessagingRepository {
   public String getCurrentUser(Handler handler, Context activityContext) {
     return firebaseDbHandler.getCurrentUserName();
   }
-
-  public FirebaseDBHandler getFirebaseDbHandler() {
-    return firebaseDbHandler;
-  }
 }
