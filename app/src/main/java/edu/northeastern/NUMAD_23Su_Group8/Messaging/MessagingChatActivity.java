@@ -62,12 +62,23 @@ public class MessagingChatActivity extends AppCompatActivity {
 
         String partnerUserName = intent.getStringExtra("userName");
 
-        DatabaseReference conversationRef = messagingRepository
-                .getFirebaseDbHandler()
-                .getDbInstance()
-                .getReference()
-                .child("messages")
-                .child(partnerUserName).child(messagingRepository.getCurrentUser(handler, this));
+        ImageButton button1 = binding.stickerOne;
+        ImageButton button2 = binding.stickerTwo;
+        ImageButton button3 = binding.stickerThree;
+        ImageButton button4 = binding.stickerFour;
+        ImageButton button5 = binding.stickerFive;
+        ImageButton button6 = binding.stickerSix;
+        ImageButton button7 = binding.stickerSeven;
+        ImageButton button8 = binding.stickerEight;
+
+
+        DatabaseReference conversationRef = messagingRepository.getFirebaseDbHandler()
+            .getDbInstance()
+            .getReference()
+            .child("messages")
+            .child(partnerUserName)
+            .child(messagingRepository.getCurrentUser(handler, this));
+
         conversationRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -88,44 +99,6 @@ public class MessagingChatActivity extends AppCompatActivity {
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
                 // leaving empty
-            }
-        });
-
-
-        ImageButton button1 = binding.stickerOne;
-        ImageButton button2 = binding.stickerTwo;
-        ImageButton button3 = binding.stickerThree;
-        ImageButton button4 = binding.stickerFour;
-        ImageButton button5 = binding.stickerFive;
-        ImageButton button6 = binding.stickerSix;
-        ImageButton button7 = binding.stickerSeven;
-        ImageButton button8 = binding.stickerEight;
-
-
-        DatabaseReference conversationRef = messagingRepository.getFirebaseDbHandler()
-                .getDbInstance()
-                .getReference()
-                .child("messages")
-                .child(messagingRepository.getCurrentUser(handler, this))
-                .child(partnerUserName);
-
-        conversationRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                List<MessageCard> messageCards = new ArrayList<>();
-
-                for (DataSnapshot messageSnapshot : snapshot.getChildren()) {
-                    MessageCard messageCard = messageSnapshot.getValue(MessageCard.class);
-                    messageCards.add(messageCard);
-                }
-
-                messageRecyclerViewAdapter.setMessageCardList(messageCards);
-                messageRecyclerViewAdapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                // Error handling if needed
             }
         });
 

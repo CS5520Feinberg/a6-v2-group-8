@@ -23,8 +23,6 @@ public class MessageCard {
         setSent(true);
     }
 
-    public MessageCard(){}
-
     public int getStickerId() {
         return stickerResourceId;
     }
