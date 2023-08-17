@@ -48,15 +48,15 @@ public class WeatherRecyclerViewAdapter extends RecyclerView.Adapter<WeatherView
     holder.getIcon().setImageDrawable(iconDrawable);
 
     holder.getDeleteBtn().setOnClickListener(v -> {
-      int currentPosition = holder.getAdapterPosition();
+      int currentPosition = holder.getBindingAdapterPosition();
       if (currentPosition != RecyclerView.NO_POSITION) {
         this.removeItem(currentPosition);
       }
     });
 
     // pass the selected city name through the listener to weather details activity
-    holder.getMoreDetails().setOnClickListener(v -> {
-      int currentPosition = holder.getAdapterPosition();
+    holder.getMoreDetailsBtn().setOnClickListener(v -> {
+      int currentPosition = holder.getBindingAdapterPosition();
       if (currentPosition != RecyclerView.NO_POSITION) {
         listener.onSeeMoreClick(weatherCardList.get(position).getLatitude(), weatherCardList.get(position).getLongitude());
       }
